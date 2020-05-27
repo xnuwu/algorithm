@@ -23,8 +23,8 @@ std::string LCS::iterate(const char* A, unsigned int m, const char* B, unsigned 
 	unsigned int cnt = 0;
 
 	//迭代查找子序列
-	for (int i = 0; i < m; i++) {
-		for (int j = 0; j < n; j++) {
+	for (unsigned int i = 0; i < m; i++) {
+		for (unsigned int j = 0; j < n; j++) {
 			if (A[i] == B[j] && j > lastX && i > lastY) {
 				lastX = j;
 				lastY = i;

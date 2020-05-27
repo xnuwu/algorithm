@@ -1,31 +1,17 @@
-﻿#include "Fibonacci.h"
-#include "LCS.h"
+﻿
 #include <iostream>
+#include "ListNode.h"
 
-class Test {
-public:
-    static int* ptr;
-    static void init() {
-        ptr = new int[10];
-    }
-
-    static void set(unsigned int p, int v) {
-        ptr[p] = v;
-    }
-
-    static int get(unsigned int p) {
-        return ptr[p];
-    }
-
-    static std::string test(const char* c) {
-        return 'c' + std::string(c);
-    }
-};
-int* Test::ptr = nullptr;
+void printIt(int& num) {
+    std::cout << num << " ";
+}
 
 int main() {
-    std::cout << LCS::recursive("educational", 11, "advantage", 9) << std::endl;
-    std::cout << LCS::iterate("didactical", 10, "advantage", 9) << std::endl;
-    std::cout << LCS::iterate("educational", 11, "advantage", 9) << std::endl;
-    return 0;
+    ListNode<int> i1(10);
+    i1.insertAsPred(9);
+    i1.insertAsSucc(11);
+  
+    std::cout << i1.data << std::endl;
+    std::cout << i1.pred -> data << std::endl;
+    std::cout << i1.succ -> data << std::endl;
 }

@@ -13,24 +13,57 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="头文件\chapter1">
+      <UniqueIdentifier>{159a438b-95a4-4855-9faf-0259a6a8c5a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\chapter2">
+      <UniqueIdentifier>{a3c9a027-8aef-48e0-ac26-2b989ffd3e58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\chapter3">
+      <UniqueIdentifier>{198ece0f-9e5a-46ca-8068-458d0632c2e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\chapter1">
+      <UniqueIdentifier>{210a3cb4-8e53-4628-aa0c-29a32a71cbc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\chapter2">
+      <UniqueIdentifier>{d46cc4b3-3c7c-440b-a84b-17aeaa121d25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\chapter3">
+      <UniqueIdentifier>{cae20079-23af-4536-9fbb-7c1eb472bc99}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="algorithm.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Fibonacci.cpp">
-      <Filter>源文件</Filter>
+      <Filter>源文件\chapter1</Filter>
     </ClCompile>
     <ClCompile Include="LCS.cpp">
-      <Filter>源文件</Filter>
+      <Filter>源文件\chapter1</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector.cpp">
+      <Filter>源文件\chapter2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fibonacci.h">
-      <Filter>头文件</Filter>
+      <Filter>头文件\chapter1</Filter>
     </ClInclude>
     <ClInclude Include="LCS.h">
-      <Filter>头文件</Filter>
+      <Filter>头文件\chapter1</Filter>
     </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>头文件\chapter2</Filter>
+    </ClInclude>
+    <ClInclude Include="ListNode.h">
+      <Filter>头文件\chapter3</Filter>
+    </ClInclude>
+    <ClInclude Include="List.h">
+      <Filter>头文件\chapter3</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>
