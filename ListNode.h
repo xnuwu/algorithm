@@ -12,7 +12,7 @@ public:
 	ListNodePos(T) succ;
 
 	ListNode() {}
-	ListNode(T e, ListNodePos(T) pred = nullptr, ListNodePos(T) succ = nullptr) : data(e), pred(pred), succ(succ) {}
+	ListNode(T e, ListNodePos(T) pred = NULL, ListNodePos(T) succ = NULL) : data(e), pred(pred), succ(succ) {}
 	ListNodePos(T) insertAsPred(T const& e);
 	ListNodePos(T) insertAsSucc(T const& e);
 };

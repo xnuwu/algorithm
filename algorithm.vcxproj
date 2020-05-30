@@ -147,7 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="algorithm.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Fibonacci.cpp" />
     <ClCompile Include="LCS.cpp" />
     <ClCompile Include="Vector.cpp" />
