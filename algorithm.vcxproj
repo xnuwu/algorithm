@@ -104,6 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalOptions>/D _CRT_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -153,10 +154,15 @@
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BinNode.h" />
+    <ClInclude Include="Convert.h" />
+    <ClInclude Include="ExpParen.h" />
     <ClInclude Include="Fibonacci.h" />
     <ClInclude Include="LCS.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="ListNode.h" />
+    <ClInclude Include="ReversePolishNotation.h" />
+    <ClInclude Include="Stack.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>

@@ -28,8 +28,11 @@
     <Filter Include="源文件\chapter2">
       <UniqueIdentifier>{d46cc4b3-3c7c-440b-a84b-17aeaa121d25}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\chapter3">
-      <UniqueIdentifier>{cae20079-23af-4536-9fbb-7c1eb472bc99}</UniqueIdentifier>
+    <Filter Include="头文件\chapter4">
+      <UniqueIdentifier>{800f84a7-900d-45d0-9943-e5873338525d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\chapter5">
+      <UniqueIdentifier>{adc3f66a-d84b-4444-b048-1953cd0fe688}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +64,21 @@
     </ClInclude>
     <ClInclude Include="List.h">
       <Filter>头文件\chapter3</Filter>
+    </ClInclude>
+    <ClInclude Include="BinNode.h">
+      <Filter>头文件\chapter5</Filter>
+    </ClInclude>
+    <ClInclude Include="Stack.h">
+      <Filter>头文件\chapter4</Filter>
+    </ClInclude>
+    <ClInclude Include="Convert.h">
+      <Filter>头文件\chapter4</Filter>
+    </ClInclude>
+    <ClInclude Include="ExpParen.h">
+      <Filter>头文件\chapter4</Filter>
+    </ClInclude>
+    <ClInclude Include="ReversePolishNotation.h">
+      <Filter>头文件\chapter4</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

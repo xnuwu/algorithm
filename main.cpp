@@ -1,29 +1,20 @@
 ﻿
 #include <iostream>
-#include "List.h"
+#include <string>
+#include "Convert.h"
+#include "ExpParen.h"
+#include "ReversePolishNotation.h"
 
-void printIt(int& num) {
-    std::cout << num << " ";
+using std::string;
+
+void test(char*& S) {
+    S++;
+    S++;
 }
 
 int main() {
-    List<int> li;
-    li.insertAsFirst(6);
-    li.insertAsFirst(4);
-    li.insertAsFirst(2);
-    li.insertAsFirst(8);
-    li.insertAsFirst(22);
-    li.insertAsFirst(16);
-
-    List<int> li2;
-    li2.insertAsLast(7);
-    li2.insertAsLast(5);
-    li2.insertAsLast(25);
-    li2.insertAsLast(3);
-    li2.insertAsLast(1);
-    li2.insertAsLast(11);
-
-    li.merge(li2);
-    li.sort();
-    li.traverse(printIt);
+    char cp[] = "12 + ( 4 + 25 ) / 3 * 5 * 67 - 8 + 9";
+    char *rpn = new char[30];
+    double ret = evaluate(cp, rpn);
+    std::cout << ret << std::endl;
 }
