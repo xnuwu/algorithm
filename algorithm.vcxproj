@@ -161,6 +161,7 @@
     <ClInclude Include="LCS.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="ListNode.h" />
+    <ClInclude Include="PlaceQueen.h" />
     <ClInclude Include="ReversePolishNotation.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="Vector.h" />

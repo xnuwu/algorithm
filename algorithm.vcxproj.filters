@@ -80,6 +80,9 @@
     <ClInclude Include="ReversePolishNotation.h">
       <Filter>头文件\chapter4</Filter>
     </ClInclude>
+    <ClInclude Include="PlaceQueen.h">
+      <Filter>头文件\chapter4</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
