@@ -105,6 +105,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalOptions>/D _CRT_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
+      <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -155,6 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinNode.h" />
+    <ClInclude Include="BinTree.h" />
     <ClInclude Include="Convert.h" />
     <ClInclude Include="ExpParen.h" />
     <ClInclude Include="Fibonacci.h" />
@@ -162,6 +164,7 @@
     <ClInclude Include="List.h" />
     <ClInclude Include="ListNode.h" />
     <ClInclude Include="PlaceQueen.h" />
+    <ClInclude Include="Queue.h" />
     <ClInclude Include="ReversePolishNotation.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="Vector.h" />
