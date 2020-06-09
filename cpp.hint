@@ -5,3 +5,4 @@
 #define ListNodePos(T)
 #define ListNodePos(T)
 #define BinNodePosi(T)
+#define BinNodePosi(T)
