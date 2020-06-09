@@ -25,7 +25,7 @@ class Vector
 	friend bool eq<T>(T& a, T& b);
 
 	/**************************************** 查找算法 ****************************************/
-	friend Rank binSearch(T* _elem, T e, Rank lo, Rank hi);
+	friend Rank binSearch<T>(T* _elem, T e, Rank lo, Rank hi);
 
 protected:
 
