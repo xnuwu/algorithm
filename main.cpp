@@ -2,9 +2,11 @@
 #include "BinTree.h"
 
 template <typename T>
-class Print {
+class Print
+{
 public:
-    void operator()(T e) {
+    void operator()(T e)
+    {
         std::cout << e << std::endl;
     }
 };
@@ -18,9 +20,9 @@ int main(int argc, char *argv[])
     bi.insertAsRC(bi.root(), 15);
     bi.insertAsLC(bi.root()->lChild, 2);
     bi.insertAsRC(bi.root()->rChild, 17);
-    
+
     std::cout << std::endl;
     bi.root()->travInI3(bi.root(), pi);
-    
+
     return 0;
 }
