@@ -18,13 +18,13 @@ template <typename T> Rank binSearch(T* _elem, T e, Rank lo, Rank hi);
 template <typename T>
 class Vector
 {
-	/**************************************** ÅĞµÈÓë±È½Ï ****************************************/
+	/**************************************** åˆ¤ç­‰ä¸æ¯”è¾ƒ ****************************************/
 	friend bool lt<T>(T* a, T* b);
 	friend bool lt<T>(T& a, T& b);
 	friend bool eq<T>(T* a, T* b);
 	friend bool eq<T>(T& a, T& b);
 
-	/**************************************** ²éÕÒËã·¨ ****************************************/
+	/**************************************** æŸ¥æ‰¾ç®—æ³• ****************************************/
 	friend Rank binSearch(T* _elem, T e, Rank lo, Rank hi);
 
 protected:
@@ -33,164 +33,164 @@ protected:
 	int _capacity;
 	T* _elem;
 
-	//¸´ÖÆÊı×éÇø¼ä
+	//å¤åˆ¶æ•°ç»„åŒºé—´
 	void copyFrom(T const* A, Rank lo, Rank hi);
 
-	//¿Õ¼ä²»×ãÊ±À©Èİ
+	//ç©ºé—´ä¸è¶³æ—¶æ‰©å®¹
 	void expand();
 
-	//×°ÌîÒò×Ó¹ıĞ¡Ê±ÑÇË÷
+	//è£…å¡«å› å­è¿‡å°æ—¶äºšç´¢
 	void shrink();
 
-	//É¨Ãè½»»»
+	//æ‰«æäº¤æ¢
 	bool bubble(Rank lo, Rank hi);
 
-	//ÆğÅİÅÅĞòËã·¨
+	//èµ·æ³¡æ’åºç®—æ³•
 	void bubbleSort(Rank lo, Rank hi);
 
-	//Ñ¡È¡×î´óÔªËØ
+	//é€‰å–æœ€å¤§å…ƒç´ 
 	Rank max(Rank lo, Rank hi);
 
-	//Ñ¡ÔñÅÅĞòËã·¨
+	//é€‰æ‹©æ’åºç®—æ³•
 	void selectSort(Rank lo, Rank hi);
 
-	//¹é²¢Ëã·¨
+	//å½’å¹¶ç®—æ³•
 	void merge(Rank lo, Rank mi, Rank hi);
 
-	//¹é²¢ÅÅĞò
+	//å½’å¹¶æ’åº
 	void mergeSort(Rank lo, Rank hi);
 
-	//Öáµã¹¹ÔìËã·¨
+	//è½´ç‚¹æ„é€ ç®—æ³•
 	Rank partition(Rank lo, Rank hi);
 
-	//¿ìËÙÅÅĞòËã·¨
+	//å¿«é€Ÿæ’åºç®—æ³•
 	void quickSort(Rank lo, Rank hi);
 
-	//¶ÑÅÅĞò
+	//å †æ’åº
 	void heapSort(Rank lo, Rank hi);
 
-	//½»»»
+	//äº¤æ¢
 	void swap(T& a, T& b);
 
-	//ÖÃÂÒÆ÷
+	//ç½®ä¹±å™¨
 	void permute(Vector<T>& v);
 
-	//Ëæ»úÊı
+	//éšæœºæ•°
 	int rand();
 
 public:
 	
-	/**************************************** ¹¹Ôìº¯Êı ****************************************/
+	/**************************************** æ„é€ å‡½æ•° ****************************************/
 
-	//ÈİÁ¿c,¹æÄ£s,Ä¬ÈÏÖµv
+	//å®¹é‡c,è§„æ¨¡s,é»˜è®¤å€¼v
 	Vector(int c = VECTOR_DEFAULT_CAPCITY, int s = 0, T v = 0) {
 		_elem = new T[_capacity = c];
 		for (_size = 0; _size < s; _elem[_size++] = v);
 	}
 
-	//Êı×éÇø¼ä¸´ÖÆ
+	//æ•°ç»„åŒºé—´å¤åˆ¶
 	Vector(T const* A, Rank lo, Rank hi) {
 		copyFrom(A, lo, hi);
 	}
 
-	//Êı×éÕûÌå¸´ÖÆ
+	//æ•°ç»„æ•´ä½“å¤åˆ¶
 	Vector(T const* A, Rank n) {
 		copyFrom(A, 0, n);
 	}
 
-	//ÏòÁ¿Çø¼ä¸´ÖÆ
+	//å‘é‡åŒºé—´å¤åˆ¶
 	Vector(Vector<T> const& v, Rank lo, Rank hi) {
 		copyFrom(v._elem, lo, hi);
 	}
 
-	//ÏòÁ¿ÕûÌå¸´ÖÆ
+	//å‘é‡æ•´ä½“å¤åˆ¶
 	Vector(Vector<T> const& v) {
 		copyFrom(v._elem, 0, v._size);
 	}
 
-	/**************************************** Îö¹¹º¯Êı ****************************************/
+	/**************************************** ææ„å‡½æ•° ****************************************/
 
 	~Vector() {
 		delete[] _elem;
 	}
 
-	/**************************************** ¹«¹²·½·¨ ****************************************/
+	/**************************************** å…¬å…±æ–¹æ³• ****************************************/
 
-	//¹æÄ£
+	//è§„æ¨¡
 	Rank size() const {
 		return _size;
 	}
 
-	//ÅĞ¿Õ
+	//åˆ¤ç©º
 	bool empty() const {
 		return _size == 0;
 	}
 
-	//ÅĞ¶ÏÊÇ·ñÒÑ¾­ÅÅĞò
+	//åˆ¤æ–­æ˜¯å¦å·²ç»æ’åº
 	int disOrdered() const;
 
-	//ÕûÌå²éÕÒ
+	//æ•´ä½“æŸ¥æ‰¾
 	Rank find(T const& e) const {
 		return find(e, 0, _size);
 	}
 
-	//Çø¼ä²éÕÒÎ´ÕÒµ½·µ»Ø-1
+	//åŒºé—´æŸ¥æ‰¾æœªæ‰¾åˆ°è¿”å›-1
 	Rank find(T const& e, Rank lo, Rank hi) const;
 
-	//ÕûÌå²éÕÒ
+	//æ•´ä½“æŸ¥æ‰¾
 	Rank search(T const& e) const {
 		return (0 >= _size ? -1 : binSearch(_elem, e, 0, _size));
 	}
 
-	//ÕûÌå²éÕÒ-Î´ÕÒµ½·µ»Ø²»´óÓÚeµÄ×î´óµÄÔªËØµÄÏÂ±ê
+	//æ•´ä½“æŸ¥æ‰¾-æœªæ‰¾åˆ°è¿”å›ä¸å¤§äºeçš„æœ€å¤§çš„å…ƒç´ çš„ä¸‹æ ‡
 	Rank search(T const& e, Rank lo, Rank hi) const {
 		return binSearch(_elem, e, lo, hi);
 	}
 
-	//Êı×éÏÂ±ê·ÃÎÊ
+	//æ•°ç»„ä¸‹æ ‡è®¿é—®
 	T& operator[](Rank r) const;
 
-	//ÖØÔØ¸³Öµ£¬½øĞĞ¿ËÂ¡
+	//é‡è½½èµ‹å€¼ï¼Œè¿›è¡Œå…‹éš†
 	Vector<T>& operator=(Vector<T> const&);
 
-	//É¾³ıÖÈÎ½rµÄÔªËØ
+	//åˆ é™¤ç§©è°“rçš„å…ƒç´ 
 	T remove(Rank r);
 
-	//É¾³ıÖÈÇø¼äÔªËØ
+	//åˆ é™¤ç§©åŒºé—´å…ƒç´ 
 	int remove(Rank lo, Rank hi);
 
-	//²åÈëÔªËØ
+	//æ’å…¥å…ƒç´ 
 	Rank insert(Rank r, T const& e);
 
-	//Ä©Î²²åÈë
+	//æœ«å°¾æ’å…¥
 	Rank insert(T const& e);
 
-	//Çø¼äÅÅĞò
+	//åŒºé—´æ’åº
 	void sort(Rank lo, Rank hi);
 
-	//ÕûÌåÅÅĞò
+	//æ•´ä½“æ’åº
 	void sort() {
 		sort(0, _size);
 	}
 
-	//Çø¼äÖÃÂÒ
+	//åŒºé—´ç½®ä¹±
 	void unsort(Rank lo, Rank hi);
 
-	//ÕûÌåÖÃÂÒ
+	//æ•´ä½“ç½®ä¹±
 	void unsort() {
 		unsort(0, _size);
 	}
 
-	//ÎŞĞòÈ¥ÖØ
+	//æ— åºå»é‡
 	int deduplicate();
 
-	//ÓĞĞòÈ¥ÖØ
+	//æœ‰åºå»é‡
 	int uniquify();
 
-	//±éÀú(º¯ÊıÖ¸Õë)
+	//éå†(å‡½æ•°æŒ‡é’ˆ)
 	void traverse(void (*)(T&));
 
-	//±éÀú(º¯Êı¶ÔÏó£©
+	//éå†(å‡½æ•°å¯¹è±¡ï¼‰
 	template <typename VST> void traverse(VST&);
 };
 

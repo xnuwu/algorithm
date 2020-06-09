@@ -22,7 +22,7 @@ std::string LCS::iterate(const char* A, unsigned int m, const char* B, unsigned 
 	char* ret = new char[m > n ? m + 1 : n + 1];
 	unsigned int cnt = 0;
 
-	//╣Э╢З╡ИурвспРап
+	//Х©╜Д╩ёФ÷╔Ф┴╬Е╜░Е╨▐Е┬≈
 	for (unsigned int i = 0; i < m; i++) {
 		for (unsigned int j = 0; j < n; j++) {
 			if (A[i] == B[j] && j > lastX && i > lastY) {

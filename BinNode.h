@@ -30,22 +30,22 @@ public:
 	BinNode() : height(0), parent(nullptr), lChild(nullptr), rChild(nullptr) {};
 	BinNode(T e, BinNodePosi(T) p = nullptr, BinNodePosi(T) l = nullptr, BinNodePosi(T) r = nullptr, int h = 0) : data(e), parent(p), lChild(l), rChild(r), height(h) {};
 
-	//µ±Ç°½ÚµãµÄÖ±½Óºó¼Ì(ÖĞĞò±éÀú)
+	//å½“å‰èŠ‚ç‚¹çš„ç›´æ¥åç»§(ä¸­åºéå†)
 	BinNodePosi(T) succ();
 
-	//×ÓÊ÷²ã¼¶±éÀú
+	//å­æ ‘å±‚çº§éå†
 	template <typename VST> void travLevel(VST&);
 
-	//×ÓÊ÷ÏÈĞò±éÀú
+	//å­æ ‘å…ˆåºéå†
 	template <typename VST> void travPre(VST&);
 	
-	//×ÓÊ÷ÖĞĞò±éÀú
+	//å­æ ‘ä¸­åºéå†
 	template <typename VST> void travIn(VST&);
 	
-	//×ÓÊ÷ºóĞò±éÀú
+	//å­æ ‘ååºéå†
 	template <typename VST> void travPost(VST&);
 
-	//±È½ÏÆ÷¡¢ÅĞµÈÆ÷
+	//æ¯”è¾ƒå™¨ã€åˆ¤ç­‰å™¨
 	bool operator<(BinNode const& bn) {
 		return data < bn.data;
 	}

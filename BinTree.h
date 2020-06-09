@@ -23,35 +23,35 @@ public:
 	int remove(BinNodePosi(T) x);
 	BinTree<T>* secede(BinNodePosi(T) x);
 
-	//子树层级遍历
+	//瀛愭爲灞傜骇閬嶅巻
 	template <typename VST> void travLevel(VST& visit) {
 		if (_root) {
 			_root->travLevel(visit);
 		}
 	}
 
-	//子树先序遍历
+	//瀛愭爲鍏堝簭閬嶅巻
 	template <typename VST> void travPre(VST& visit) {
 		if (_root) {
 			_root->travPre(visit);
 		}
 	}
 
-	//子树中序遍历
+	//瀛愭爲涓簭閬嶅巻
 	template <typename VST> void travIn(VST& visit) {
 		if (_root) {
 			_root->travIn(visit);
 		}
 	}
 
-	//子树后序遍历
+	//瀛愭爲鍚庡簭閬嶅巻
 	template <typename VST> void travPost(VST& visit) {
 		if (_root) {
 			_root->travPost(visit);
 		}
 	}
 
-	//比较器、判等器
+	//姣旇緝鍣ㄣ�佸垽绛夊櫒
 	bool operator<(BinTree<T> const& bt) {
 		return _root && bt._root && _root < bt._root;
 	}

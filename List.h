@@ -11,130 +11,130 @@ private:
 
 protected:
 
-	//ÁĞ±í³õÊ¼»¯
+	//åˆ—è¡¨åˆå§‹åŒ–
 	void init();
 
-	//Çå³ıËùÓĞ½Úµã
+	//æ¸…é™¤æ‰€æœ‰èŠ‚ç‚¹
 	int clear();
 
-	//¸³ÖµÁĞ±íÖĞ×ÔÎ»ÖÃpÆğµÄnÏî
+	//èµ‹å€¼åˆ—è¡¨ä¸­è‡ªä½ç½®pèµ·çš„né¡¹
 	void copyNodes(ListNodePos(T), int);
 
-	//ÓĞĞò±íÇø¼ä¹é²¢
+	//æœ‰åºè¡¨åŒºé—´å½’å¹¶
 	void merge(ListNodePos(T)& p, int n, List<T>& L, ListNodePos(T) q, int m);
 
-	//¶Ô´Óp¿ªÊ¼Á¬ĞøµÄn¸ö½Úµã¹é²¢ÅÅĞò
+	//å¯¹ä»på¼€å§‹è¿ç»­çš„nä¸ªèŠ‚ç‚¹å½’å¹¶æ’åº
 	void mergeSort(ListNodePos(T)&, int);
 
-	//¶Ô´Óp¿ªÊ¼µÄÁ¬Ğøn¸ö½ÚµãÑ¡ÔñÅÅĞò
+	//å¯¹ä»på¼€å§‹çš„è¿ç»­nä¸ªèŠ‚ç‚¹é€‰æ‹©æ’åº
 	void selectionSort(ListNodePos(T), int);
 
-	//¶Ô´Óp¿ªÊ¼µÄÁ¬Ğøn¸ö½Úµã²åÈëÅÅĞò
+	//å¯¹ä»på¼€å§‹çš„è¿ç»­nä¸ªèŠ‚ç‚¹æ’å…¥æ’åº
 	void insertSort(ListNodePos(T), int);
 
 public:
 
-	/****************************** ¹¹Ôìº¯Êı ******************************/
+	/****************************** æ„é€ å‡½æ•° ******************************/
 
-	//Ä¬ÈÏ
+	//é»˜è®¤
 	List() { init(); }
 
-	//ÕûÌå¸´ÖÆL
+	//æ•´ä½“å¤åˆ¶L
 	List(List<T> const& L);
 
-	//¸´ÖÆL×ÔµÚrÏî¿ªÊ¼nÏî
+	//å¤åˆ¶Lè‡ªç¬¬ré¡¹å¼€å§‹né¡¹
 	List(List<T> const& L, Rank r, int n);
 
-	//¸´ÖÆp¿ªÊ¼µÄnÏî
+	//å¤åˆ¶på¼€å§‹çš„né¡¹
 	List(ListNodePos(T) p, int n);
 
-	/****************************** Îö¹¹ ******************************/
+	/****************************** ææ„ ******************************/
 
-	//ÊÍ·Å°üº¬Í·Î²ÉÚ±øÔÚÄÚµÄËùÓĞ½Úµã
+	//é‡Šæ”¾åŒ…å«å¤´å°¾å“¨å…µåœ¨å†…çš„æ‰€æœ‰èŠ‚ç‚¹
 	~List();
 
-	/****************************** Ö»¶Á·ÃÎÊ½Ó¿Ú ******************************/
+	/****************************** åªè¯»è®¿é—®æ¥å£ ******************************/
 	
-	//¹æÄ£
+	//è§„æ¨¡
 	Rank size() const { return _size; }
 
-	//ÅĞ¿Õ
+	//åˆ¤ç©º
 	bool empty() const { return _size <= 0; }
 
-	//Ñ­ÖÈ·ÃÎÊ
+	//å¾ªç§©è®¿é—®
 	T& operator[](Rank r) const;
 
-	//Ê×½ÚµãÎ»ÖÃ
+	//é¦–èŠ‚ç‚¹ä½ç½®
 	ListNodePos(T)& first() const { return header->succ; }
 
-	//Ä©½ÚµãÎ»ÖÃ
+	//æœ«èŠ‚ç‚¹ä½ç½®
 	ListNodePos(T)& last() const { return tailer-> pred; }
 
-	//ÅĞ¶ÏÎ»ÖÃpÊÇ·ñ¶ÔÍâºÏ·¨i
+	//åˆ¤æ–­ä½ç½®pæ˜¯å¦å¯¹å¤–åˆæ³•i
 	bool valid(ListNodePos(T) p) { return p && (tailer != p) && (header != p); }
 
-	//ÅĞ¶ÏÁĞ±íÊÇ·ñÒÑ¾­ÅÅĞò
+	//åˆ¤æ–­åˆ—è¡¨æ˜¯å¦å·²ç»æ’åº
 	int disOrdered() const;
 
-	//ÎŞĞòÁĞ±í²éÕÒ
+	//æ— åºåˆ—è¡¨æŸ¥æ‰¾
 	ListNodePos(T) find(T const& e) const { return find(e, _size, tailer); }
 
-	//ÎŞĞòÇø¼ä²éÕÒ
+	//æ— åºåŒºé—´æŸ¥æ‰¾
 	ListNodePos(T) find(T const& e, int n, ListNodePos(T) p) const;
 
-	//ÓĞĞòÁĞ±í²éÕÒ
+	//æœ‰åºåˆ—è¡¨æŸ¥æ‰¾
 	ListNodePos(T) search(T const& e) const { return search(e, _size, tailer); }
 
-	//ÓĞĞòÇø¼ä²éÕÒ
+	//æœ‰åºåŒºé—´æŸ¥æ‰¾
 	ListNodePos(T) search(T const& e, int n, ListNodePos(T) p) const;
 
-	//ÔÚp¼°ÆäÇ°n-1¸öºó¼ÌÖĞÑ¡³ö×î´óÕß
+	//åœ¨påŠå…¶å‰n-1ä¸ªåç»§ä¸­é€‰å‡ºæœ€å¤§è€…
 	ListNodePos(T) selectMax(ListNodePos(T) p, int n);
 
-	//ÕûÌå×î´óÕß
+	//æ•´ä½“æœ€å¤§è€…
 	ListNodePos(T) selectMax() { return selectMax(header->succ, _size); }
 
-	/****************************** ¿É¶ÁĞ´·ÃÎÊ½Ó¿Ú ******************************/
+	/****************************** å¯è¯»å†™è®¿é—®æ¥å£ ******************************/
 
-	//½«eµ±×÷Ê×½Úµã²åÈë
+	//å°†eå½“ä½œé¦–èŠ‚ç‚¹æ’å…¥
 	ListNodePos(T) insertAsFirst(T const& e);
 
-	//½«eµ±×÷Ä©½Úµã²åÈë
+	//å°†eå½“ä½œæœ«èŠ‚ç‚¹æ’å…¥
 	ListNodePos(T) insertAsLast(T const& e);
 
-	//½«eµ±×÷pµÄÇ°Çı²åÈë
+	//å°†eå½“ä½œpçš„å‰é©±æ’å…¥
 	ListNodePos(T) insertBefore(ListNodePos(T) p, T const& e);
 
-	//½«eµ±×÷pµÄºó¼Ì²åÈë
+	//å°†eå½“ä½œpçš„åç»§æ’å…¥
 	ListNodePos(T) insertAfter(ListNodePos(T) p, T const& e);
 
-	//É¾³ıºÏ·¨Î»ÖÃp´¦µÄ½Úµã,·µ»Ø±»É¾³ıµÄ½Úµã
+	//åˆ é™¤åˆæ³•ä½ç½®på¤„çš„èŠ‚ç‚¹,è¿”å›è¢«åˆ é™¤çš„èŠ‚ç‚¹
 	T remove(ListNodePos(T) p);
 
-	//È«ÁĞ±í¹é²¢
+	//å…¨åˆ—è¡¨å½’å¹¶
 	void merge(List<T>& L) { merge(first(), _size, L, L.first(), L._size); }
 
-	//ÁĞ±íÇø¼äÅÅĞò
+	//åˆ—è¡¨åŒºé—´æ’åº
 	void sort(ListNodePos(T) p, int n);
 
-	//ÁĞ±íÕûÌåÅÅĞò
+	//åˆ—è¡¨æ•´ä½“æ’åº
 	void sort() { mergeSort(first(), _size); }
 
-	//ÎŞĞòÈ¥ÖØ
+	//æ— åºå»é‡
 	int deduplicate();
 
-	//ÓĞĞòÈ¥ÖØ
+	//æœ‰åºå»é‡
 	int uniquify();
 
-	//Ç°ºóµ¹ÖÃ
+	//å‰åå€’ç½®
 	void reverse();
 
-	/****************************** ±éÀú ******************************/
+	/****************************** éå† ******************************/
 
-	//º¯ÊıÖ¸Õë±éÀú£¬¾Ö²¿ÌØĞÔĞŞ¸Ä
+	//å‡½æ•°æŒ‡é’ˆéå†ï¼Œå±€éƒ¨ç‰¹æ€§ä¿®æ”¹
 	void traverse(void(*)(T&));
 
-	//º¯Êı¶ÔÏó£¬È«¾ÖĞÔĞŞ¸Ä
+	//å‡½æ•°å¯¹è±¡ï¼Œå…¨å±€æ€§ä¿®æ”¹
 	template <typename VST>
 	void traverse(VST&);
 };
@@ -308,7 +308,7 @@ ListNodePos(T) List<T>::find(T const& e, int n, ListNodePos(T) p) const
 template<typename T>
 ListNodePos(T) List<T>::search(T const& e, int n, ListNodePos(T) p) const
 {
-	//=ºÅÔÚÎ´ÕÒµ½µÄÇé¿öÏÂ·µ»Øheader½Úµã
+	//=å·åœ¨æœªæ‰¾åˆ°çš„æƒ…å†µä¸‹è¿”å›headerèŠ‚ç‚¹
 	while (0 <= n--) {
 		if ((p = p->pred)->data <= e) {
 			break;

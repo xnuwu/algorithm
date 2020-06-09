@@ -23,7 +23,7 @@ void printQueen(Stack<Queen> solutions) {
         for (int j = 0; j < size; j++) {
             if (j == solutions.top().x && i == solutions.top().y) {
                 solutions.pop();
-                std::cout << "¨€ ";
+                std::cout << "â–ˆ ";
             }
             else {
                 std::cout << "[] ";

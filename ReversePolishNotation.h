@@ -5,21 +5,21 @@
 typedef enum { ADD, SUB, MUL, DIV, POW, FAC, L_P, R_P, EOE} Operator;
 
 const char pri[N_OPTR][N_OPTR] = {
-	//ÔËËã·ûÓÅÏÈµÈ¼¶ [Õ»¶¥] [µ±Ç°]
-/* |-------------- µ±Ç°ÔËËã·û --------------| */
+	//è¿ç®—ç¬¦ä¼˜å…ˆç­‰çº§ [æ ˆé¡¶] [å½“å‰]
+/* |-------------- å½“å‰è¿ç®—ç¬¦ --------------| */
 		 /* +    -    *    /    ^    !    (    )   \0  */
 /* -- + */ '>', '>', '<', '<', '<', '<', '<', '>', '>',
 /* |  - */ '>', '>', '<', '<', '<', '<', '<', '>', '>',
-/* Õ» * */ '>', '>', '>', '>', '<', '<', '<', '>', '>',
-/* ¶¥ / */ '>', '>', '>', '>', '<', '<', '<', '>', '>',
-/* ÔË ^ */ '>', '>', '>', '>', '>', '<', '<', '>', '>',
-/* Ëã ! */ '>', '>', '>', '>', '>', '>', ' ', '>', '>',
-/* ·û ( */ '<', '<', '<', '<', '<', '<', '<', '=', ' ',
+/* æ ˆ * */ '>', '>', '>', '>', '<', '<', '<', '>', '>',
+/* é¡¶ / */ '>', '>', '>', '>', '<', '<', '<', '>', '>',
+/* è¿ ^ */ '>', '>', '>', '>', '>', '<', '<', '>', '>',
+/* ç®— ! */ '>', '>', '>', '>', '>', '>', ' ', '>', '>',
+/* ç¬¦ ( */ '<', '<', '<', '<', '<', '<', '<', '=', ' ',
 /* |  ) */ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
 /*-- \0 */ '<', '<', '<', '<', '<', '<', '<', ' ', '='
 };
 
-//¶ÁÈ¡ÕûÊı¡¢Ğ¡Êı
+//è¯»å–æ•´æ•°ã€å°æ•°
 void readNumber(char*& S, Stack<double>& opNum) {
 	double number = atof(S);
 	int ch = *S;
@@ -30,7 +30,7 @@ void readNumber(char*& S, Stack<double>& opNum) {
 	opNum.push(number);
 }
 
-//½«Êı×ÖÌí¼Óµ½rpnºó
+//å°†æ•°å­—æ·»åŠ åˆ°rpnå
 void append(char*& rpn, double num) {
 	char buff[128];
 	if (0 < num - (int)num) {
@@ -49,7 +49,7 @@ void append(char*& rpn, double num) {
 	}
 }
 
-//½«²Ù×÷·ûÌí¼Óµ½rpnºó
+//å°†æ“ä½œç¬¦æ·»åŠ åˆ°rpnå
 void append(char*& rpn, char op) {
 	char buff[3] = { op, ' ', '\0' };
 	char* newRpn = (char*)realloc(rpn, sizeof(char) * (strlen(rpn) + 3));
@@ -62,7 +62,7 @@ void append(char*& rpn, char op) {
 	}
 }
 
-//²Ù×÷·ûÇóÖµ
+//æ“ä½œç¬¦æ±‚å€¼
 double calc(char op, double opNum) {
 	double ret = 0;
 	switch (op)
@@ -83,7 +83,7 @@ double calc(char op, double opNum) {
 	return ret;
 }
 
-//²Ù×÷·ûÇóÖµ
+//æ“ä½œç¬¦æ±‚å€¼
 double calc(double opNumFirst, char op, double opNumLast) {
 	double ret = 0;
 	switch (op)
@@ -113,7 +113,7 @@ double calc(double opNumFirst, char op, double opNumLast) {
 	return ret;
 }
 
-//²Ù×÷·û×ª»»
+//æ“ä½œç¬¦è½¬æ¢
 Operator optr2rank(char op) {
 	switch (op)
 	{
@@ -140,12 +140,12 @@ Operator optr2rank(char op) {
 	}
 }
 
-//±È½ÏÕ»¶¥ÔËËã·ûÓëÔËËã·ûµÄÓÅÏÈ¼¶
+//æ¯”è¾ƒæ ˆé¡¶è¿ç®—ç¬¦ä¸è¿ç®—ç¬¦çš„ä¼˜å…ˆçº§
 char orderBetween(char opOnStack, char op) {
 	return pri[optr2rank(opOnStack)][optr2rank(op)];
 }
 
-//±í´ïÊ½ÇóÖµ,²¢Éú³ÉÄæ²¨À¼±í´ïÊ½
+//è¡¨è¾¾å¼æ±‚å€¼,å¹¶ç”Ÿæˆé€†æ³¢å…°è¡¨è¾¾å¼
 double evaluate(char* S, char*& RPN) {
 	Stack<char> opStack;
 	Stack<double> opNumStack;
