@@ -34,6 +34,9 @@
     <Filter Include="头文件\chapter5">
       <UniqueIdentifier>{adc3f66a-d84b-4444-b048-1953cd0fe688}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\common">
+      <UniqueIdentifier>{d44da07c-3712-4692-b105-48c589c5c5c1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Fibonacci.cpp">
@@ -88,6 +91,9 @@
     </ClInclude>
     <ClInclude Include="BinTree.h">
       <Filter>头文件\chapter5</Filter>
+    </ClInclude>
+    <ClInclude Include="Release.h">
+      <Filter>头文件\common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

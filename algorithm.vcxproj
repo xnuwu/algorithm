@@ -165,6 +165,7 @@
     <ClInclude Include="ListNode.h" />
     <ClInclude Include="PlaceQueen.h" />
     <ClInclude Include="Queue.h" />
+    <ClInclude Include="Release.h" />
     <ClInclude Include="ReversePolishNotation.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="Vector.h" />

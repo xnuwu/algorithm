@@ -1,78 +1,96 @@
 #pragma once
-#define BinNodePosi(T) BinNode<T>* 
-#define stature(p) ((p) ? (p)->height, -1)
+#define BinNodePosi(T) BinNode<T> *
+#define stature(p) ((p) ? (p)->height : -1)
 #define IsRoot(x) (!((x).parent))
-#define IsLChild(x) (!IsRoot(x) && ((&x) == (x).parent -> lChild))
-#define IsRChild(x) (!IsRoot(x) && ((&x) == (x).parent -> rChild))
+#define IsLChild(x) (!IsRoot(x) && ((&x) == (x).parent->lChild))
+#define IsRChild(x) (!IsRoot(x) && ((&x) == (x).parent->rChild))
 #define HasParent(x) (!IsRoot(x))
 #define HasLChild(x) ((x).lChild)
 #define HasRChild(x) ((x).rChild)
 #define HasChild(x) (HasLChild(x) || HasRChild(x))
 #define HasBothChild(x) (HasLChild(x) && HasRChild(x))
 #define IsLeaf(x) (!HasChild(x))
-#define sibling(p) (IsLChild(p) ? (p) -> parent -> rChild : (p) -> parent -> lChild)
-#define uncle(p) (*(IsLChild(p -> parent)) ? (p) -> parent -> parent -> rChild : (p) -> parent -> parent -> lChild)
-#define FromParentTo(x) (IsRoot(x) ? _root : (IsLChild(x) ? (x).parent -> lChild : (x).parent -> rChild ))
+#define sibling(p) (IsLChild(p) ? (p)->parent->rChild : (p)->parent->lChild)
+#define uncle(p) (*(IsLChild(p->parent)) ? (p)->parent->parent->rChild : (p)->parent->parent->lChild)
+#define FromParentTo(x) (IsRoot(x) ? _root : (IsLChild(x) ? (x).parent->lChild : (x).parent->rChild))
 
-typedef enum { RB_RED, RB_BLACK } RBColor;
+typedef enum
+{
+	RB_RED,
+	RB_BLACK
+} RBColor;
 
 template <typename T>
-class BinNode {
+class BinNode
+{
 public:
-	BinNodePosi(T) parent, lChild, rChild;
+	BinNodePosi(T) parent;
+	BinNodePosi(T) lChild;
+	BinNodePosi(T) rChild;
 	T data;
 	int height;
 	int size();
 
-	BinNodePosi(T) insertAsLc(T const& e);
-	BinNodePosi(T) insertAsRc(T const& e);
+	BinNodePosi(T) insertAsLC(T const &e);
+	BinNodePosi(T) insertAsRC(T const &e);
 
-	BinNode() : height(0), parent(nullptr), lChild(nullptr), rChild(nullptr) {};
-	BinNode(T e, BinNodePosi(T) p = nullptr, BinNodePosi(T) l = nullptr, BinNodePosi(T) r = nullptr, int h = 0) : data(e), parent(p), lChild(l), rChild(r), height(h) {};
+	BinNode() : height(0), parent(nullptr), lChild(nullptr), rChild(nullptr){};
+	BinNode(T e, BinNodePosi(T) p = nullptr, BinNodePosi(T) l = nullptr, BinNodePosi(T) r = nullptr, int h = 0) : data(e), parent(p), lChild(l), rChild(r), height(h){};
 
-	//å½“å‰èŠ‚ç‚¹çš„ç›´æ¥åç»§(ä¸­åºéå†)
+	//µ±Ç°½ÚµãµÄÖ±½Óºó¼Ì(ÖĞĞò±éÀú)
 	BinNodePosi(T) succ();
 
-	//å­æ ‘å±‚çº§éå†
-	template <typename VST> void travLevel(VST&);
+	//×ÓÊ÷²ã¼¶±éÀú
+	template <typename VST>
+	void travLevel(VST &);
 
-	//å­æ ‘å…ˆåºéå†
-	template <typename VST> void travPre(VST&);
-	
-	//å­æ ‘ä¸­åºéå†
-	template <typename VST> void travIn(VST&);
-	
-	//å­æ ‘ååºéå†
-	template <typename VST> void travPost(VST&);
+	//×ÓÊ÷ÏÈĞò±éÀú
+	template <typename VST>
+	void travPre(VST &);
 
-	//æ¯”è¾ƒå™¨ã€åˆ¤ç­‰å™¨
-	bool operator<(BinNode const& bn) {
+	//×ÓÊ÷ÖĞĞò±éÀú
+	template <typename VST>
+	void travIn(VST &);
+
+	//×ÓÊ÷ºóĞò±éÀú
+	template <typename VST>
+	void travPost(VST &);
+
+	//±È½ÏÆ÷¡¢ÅĞµÈÆ÷
+	bool operator<(BinNode const &bn)
+	{
 		return data < bn.data;
 	}
 
-	bool operator=(BinNode const& bn) {
+	bool operator=(BinNode const &bn)
+	{
 		return data == bn.data;
 	}
 };
 
 template <typename T>
-BinNodePosi(T) BinNode<T>::insertAsLc(T const& e) {
+BinNodePosi(T) BinNode<T>::insertAsLC(T const &e)
+{
 	return lChild = new BinNode(e, this);
 }
 
 template <typename T>
-BinNodePosi(T) BinNode<T>::insertAsRc(T const& e) {
+BinNodePosi(T) BinNode<T>::insertAsRC(T const &e)
+{
 	return rChild = new BinNode(e, this);
 }
 
 template <typename T>
-int BinNode<T>::size() {
+int BinNode<T>::size()
+{
 	int s = 1;
-	if (lChild) {
+	if (lChild)
+	{
 		s += lChild->size();
 	}
 
-	if (rChild) {
+	if (rChild)
+	{
 		s += rChild->size();
 	}
 
