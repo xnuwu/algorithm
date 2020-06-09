@@ -1,7 +1,8 @@
 #include <iostream>
 #include "BinTree.h"
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[])
+{
     BinTree<int> bi;
     bi.insertAsRoot(10);
     bi.insertAsLC(bi.root(), 5);
