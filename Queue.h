@@ -5,14 +5,14 @@ template <typename T>
 class Queue : public List<T> {
 public:
 	void enqueue(T const& e) {
-		insertAsLast(e);
+		List<T>::insertAsLast(e);
 	}
 
 	T dequeue() {
-		remove(first());
+		return List<T>::remove(List<T>::first());
 	}
 
 	T& front() {
-		return first()->data;
+		return List<T>::first()->data;
 	}
 };

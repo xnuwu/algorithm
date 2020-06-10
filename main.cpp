@@ -23,6 +23,7 @@ int main(int argc, char *argv[])
 
     std::cout << std::endl;
     bi.root()->travInI3(bi.root(), pi);
+    bi.root()->travLevel(pi);
 
     return 0;
 }

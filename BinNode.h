@@ -1,4 +1,5 @@
 #pragma once
+#include "Queue.h"
 #include "Stack.h"
 
 #define BinNodePosi(T) BinNode<T> *
@@ -84,6 +85,12 @@ public:
 	template <typename VST>
 	void travPostR(BinNodePosi(T) p, VST& visit);
 
+	//到达最高左侧可见叶节点,并将经过的节点按次序入栈
+	void goToHLVFL(Stack<BinNodePosi(T)>& s);
+
+	template <typename VST>
+	void travPostI(BinNodePosi(T) p, VST& visit);
+
 	//比较器、判等器
 	bool operator<(BinNode const &bn)
 	{
@@ -142,6 +149,25 @@ int BinNode<T>::size()
 	}
 
 	return s;
+}
+
+template<typename T>
+template<typename VST>
+void BinNode<T>::travLevel(VST& visit)
+{
+	Queue<BinNodePosi(T)> queue;
+	queue.enqueue(this);
+	while (!queue.empty()) {
+		BinNodePosi(T) p = queue.dequeue();
+		visit(p->data);
+		if (HasLChild(*p)) {
+			queue.enqueue(p->lChild);
+		}
+
+		if (HasRChild(*p)) {
+			queue.enqueue(p->rChild);
+		}
+	}
 }
 
 template<typename T>
@@ -273,4 +299,40 @@ void BinNode<T>::travPostR(BinNodePosi(T) p, VST& visit)
 	travPostR(p->lChild, visit);
 	travPostR(p->rChild, visit);
 	visit(p->data);
+}
+
+template<typename T>
+void BinNode<T>::goToHLVFL(Stack<BinNodePosi(T)>& s)
+{
+	while (BinNodePosi(T) p = s.top()) {
+		if (HasLChild(*p)) {
+			if (HasRChild(*p)) {
+				s.push(p->rChild);
+			}
+			s.push(p->lChild);
+		}
+		else {
+			s.push(p->rChild);
+		}
+	}
+	s.pop();
+}
+
+template<typename T>
+template<typename VST>
+inline void BinNode<T>::travPostI(BinNodePosi(T) x, VST& visit)
+{
+	Stack<BinNodePosi(T)> s;
+	if (x) {
+		s.push(x);
+	}
+	
+	while (!s.empty())
+	{
+		if (s.top() != x -> parent) {
+			goToHLVFL(s);
+		}
+		x = s.pop();
+		visit(x->data);
+	}
 }
