@@ -26,6 +26,22 @@ typedef enum
 template <typename T>
 class BinNode
 {
+	//比较器、判等器
+	friend bool operator<(const BinNode<T>& lbn, const BinNode<T>& rbn)
+	{
+		return lbn.data < rbn.data;
+	};
+
+	friend bool operator>(const BinNode<T>& lbn, const BinNode<T>& rbn)
+	{
+		return lbn.data > rbn.data;
+	};
+
+	friend bool operator==(const BinNode<T>& lbn, const BinNode<T>& rbn)
+	{
+		return lbn.data == rbn.data;
+	};
+
 public:
 	BinNodePosi(T) parent;
 	BinNodePosi(T) lChild;
@@ -39,6 +55,32 @@ public:
 
 	BinNode() : height(0), parent(nullptr), lChild(nullptr), rChild(nullptr){};
 	BinNode(T e, BinNodePosi(T) p = nullptr, BinNodePosi(T) l = nullptr, BinNodePosi(T) r = nullptr, int h = 0) : data(e), parent(p), lChild(l), rChild(r), height(h){};
+
+	BinNode<T>& operator=(const BinNode<T> rbn) const {
+		if (this != &rbn) {
+			this->data = rbn.data;
+			this->height = rbn.height;
+			this->parent = rbn.parent;
+			this->lChild = rbn.lChild;
+			this->rChild = rbn.rChild;
+		}
+		return *this;
+	}
+
+	BinNode<T>& operator=(const BinNode<T> &&rbn) {
+		if (this != &rbn) {
+			this->data = rbn.data;
+			this->height = rbn.height;
+			this->parent = rbn.parent;
+			this->lChild = rbn.lChild;
+			this->rChild = rbn.rChild;
+			rbn.height = 0;
+			rbn.parent = nullptr;
+			rbn.lChild = nullptr;
+			rbn.rChild = nullptr;
+		}
+		return *this;
+	}
 
 	//当前节点的直接后继(中序遍历)
 	BinNodePosi(T) succ();
@@ -90,17 +132,6 @@ public:
 
 	template <typename VST>
 	void travPostI(BinNodePosi(T) p, VST& visit);
-
-	//比较器、判等器
-	bool operator<(BinNode const &bn)
-	{
-		return data < bn.data;
-	}
-
-	bool operator=(BinNode const &bn)
-	{
-		return data == bn.data;
-	}
 };
 
 template <typename T>

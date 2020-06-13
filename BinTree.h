@@ -6,6 +6,21 @@
 template <typename T>
 class BinTree
 {
+	//比较器、判等器
+	friend bool operator<(BinTree<T> const& lbt, BinTree<T> const& rbt)
+	{
+		return lbt._root && rbt._root && lbt._root < rbt._root;
+	};
+
+	friend bool operator>(BinTree<T> const& lbt, BinTree<T> const& rbt)
+	{
+		return lbt._root && rbt._root && lbt._root > rbt._root;
+	};
+
+	friend bool operator==(BinTree<T> const& lbt, BinTree<T> const& rbt)
+	{
+		return lbt._root && rbt._root && lbt._root == rbt._root;
+	};
 protected:
 	int _size;
 	BinNodePosi(T) _root;
@@ -21,6 +36,16 @@ public:
 			remove(_root);
 		}
 	}
+
+	BinTree& operator=(const BinTree<T> bt) const {
+		if (this != &bt) {
+			this->_size = bt._size;
+			this->_root = bt._root;
+		}
+
+		return *this;
+	}
+
 	int size() const { return _size; }
 	bool empty() const { return !_root; }
 	BinNodePosi(T) root() const { return _root; }
@@ -70,17 +95,6 @@ public:
 		{
 			_root->travPost(visit);
 		}
-	}
-
-	//比较器、判等器
-	bool operator<(BinTree<T> const &bt)
-	{
-		return _root && bt._root && _root < bt._root;
-	}
-
-	bool operator=(BinTree<T> const &bt)
-	{
-		return _root && bt._root && _root == bt._root;
 	}
 
 private:

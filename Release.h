@@ -8,7 +8,7 @@ public:
 #ifdef _DEBUG
 		static int n = 0;
 		if (7 > strlen(typeid(T).name())) {
-			printf("\t<%s>[%d] purged\n", typeid(T).name(), ++n);
+			//printf("\t<%s>[%d] purged\n", typeid(T).name(), ++n);
 		}
 #endif // _DEBUG
 
@@ -23,7 +23,7 @@ public:
 		}
 #ifdef _DEBUG
 		static int n = 0;
-		printf("\t<%s>[%d] release\n", typeid(T*).name(), ++n);
+		//printf("\t<%s>[%d] release\n", typeid(T*).name(), ++n);
 #endif // _DEBUG
 
 	}

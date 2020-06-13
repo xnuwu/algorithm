@@ -2,7 +2,8 @@
 #include "ListNode.h"
 
 template <typename T>
-class List {
+class List
+{
 
 private:
 	ListNodePos(T) header;
@@ -10,141 +11,139 @@ private:
 	int _size;
 
 protected:
-
-	//åˆ—è¡¨åˆå§‹åŒ–
+	//ÁĞ±í³õÊ¼»¯
 	void init();
 
-	//æ¸…é™¤æ‰€æœ‰èŠ‚ç‚¹
+	//Çå³ıËùÓĞ½Úµã
 	int clear();
 
-	//èµ‹å€¼åˆ—è¡¨ä¸­è‡ªä½ç½®pèµ·çš„né¡¹
+	//¸³ÖµÁĞ±íÖĞ×ÔÎ»ÖÃpÆğµÄnÏî
 	void copyNodes(ListNodePos(T), int);
 
-	//æœ‰åºè¡¨åŒºé—´å½’å¹¶
-	void merge(ListNodePos(T)& p, int n, List<T>& L, ListNodePos(T) q, int m);
+	//ÓĞĞò±íÇø¼ä¹é²¢
+	void merge(ListNodePos(T) & p, int n, List<T> &L, ListNodePos(T) q, int m);
 
-	//å¯¹ä»på¼€å§‹è¿ç»­çš„nä¸ªèŠ‚ç‚¹å½’å¹¶æ’åº
-	void mergeSort(ListNodePos(T)&, int);
+	//¶Ô´Óp¿ªÊ¼Á¬ĞøµÄn¸ö½Úµã¹é²¢ÅÅĞò
+	void mergeSort(ListNodePos(T) &, int);
 
-	//å¯¹ä»på¼€å§‹çš„è¿ç»­nä¸ªèŠ‚ç‚¹é€‰æ‹©æ’åº
+	//¶Ô´Óp¿ªÊ¼µÄÁ¬Ğøn¸ö½ÚµãÑ¡ÔñÅÅĞò
 	void selectionSort(ListNodePos(T), int);
 
-	//å¯¹ä»på¼€å§‹çš„è¿ç»­nä¸ªèŠ‚ç‚¹æ’å…¥æ’åº
+	//¶Ô´Óp¿ªÊ¼µÄÁ¬Ğøn¸ö½Úµã²åÈëÅÅĞò
 	void insertSort(ListNodePos(T), int);
 
 public:
+	/****************************** ¹¹Ôìº¯Êı ******************************/
 
-	/****************************** æ„é€ å‡½æ•° ******************************/
-
-	//é»˜è®¤
+	//Ä¬ÈÏ
 	List() { init(); }
 
-	//æ•´ä½“å¤åˆ¶L
-	List(List<T> const& L);
+	//ÕûÌå¸´ÖÆL
+	List(List<T> const &L);
 
-	//å¤åˆ¶Lè‡ªç¬¬ré¡¹å¼€å§‹né¡¹
-	List(List<T> const& L, Rank r, int n);
+	//¸´ÖÆL×ÔµÚrÏî¿ªÊ¼nÏî
+	List(List<T> const &L, Rank r, int n);
 
-	//å¤åˆ¶på¼€å§‹çš„né¡¹
+	//¸´ÖÆp¿ªÊ¼µÄnÏî
 	List(ListNodePos(T) p, int n);
 
-	/****************************** ææ„ ******************************/
+	/****************************** Îö¹¹ ******************************/
 
-	//é‡Šæ”¾åŒ…å«å¤´å°¾å“¨å…µåœ¨å†…çš„æ‰€æœ‰èŠ‚ç‚¹
+	//ÊÍ·Å°üº¬Í·Î²ÉÚ±øÔÚÄÚµÄËùÓĞ½Úµã
 	~List();
 
-	/****************************** åªè¯»è®¿é—®æ¥å£ ******************************/
-	
-	//è§„æ¨¡
+	/****************************** Ö»¶Á·ÃÎÊ½Ó¿Ú ******************************/
+
+	//¹æÄ£
 	Rank size() const { return _size; }
 
-	//åˆ¤ç©º
+	//ÅĞ¿Õ
 	bool empty() const { return _size <= 0; }
 
-	//å¾ªç§©è®¿é—®
-	T& operator[](Rank r) const;
+	//Ñ­ÖÈ·ÃÎÊ
+	T &operator[](Rank r) const;
 
-	//é¦–èŠ‚ç‚¹ä½ç½®
-	ListNodePos(T)& first() const { return header->succ; }
+	//Ê×½ÚµãÎ»ÖÃ
+	ListNodePos(T) & first() const { return header->succ; }
 
-	//æœ«èŠ‚ç‚¹ä½ç½®
-	ListNodePos(T)& last() const { return tailer-> pred; }
+	//Ä©½ÚµãÎ»ÖÃ
+	ListNodePos(T) & last() const { return tailer->pred; }
 
-	//åˆ¤æ–­ä½ç½®pæ˜¯å¦å¯¹å¤–åˆæ³•i
+	//ÅĞ¶ÏÎ»ÖÃpÊÇ·ñ¶ÔÍâºÏ·¨i
 	bool valid(ListNodePos(T) p) { return p && (tailer != p) && (header != p); }
 
-	//åˆ¤æ–­åˆ—è¡¨æ˜¯å¦å·²ç»æ’åº
+	//ÅĞ¶ÏÁĞ±íÊÇ·ñÒÑ¾­ÅÅĞò
 	int disOrdered() const;
 
-	//æ— åºåˆ—è¡¨æŸ¥æ‰¾
-	ListNodePos(T) find(T const& e) const { return find(e, _size, tailer); }
+	//ÎŞĞòÁĞ±í²éÕÒ
+	ListNodePos(T) find(T const &e) const { return find(e, _size, tailer); }
 
-	//æ— åºåŒºé—´æŸ¥æ‰¾
-	ListNodePos(T) find(T const& e, int n, ListNodePos(T) p) const;
+	//ÎŞĞòÇø¼ä²éÕÒ
+	ListNodePos(T) find(T const &e, int n, ListNodePos(T) p) const;
 
-	//æœ‰åºåˆ—è¡¨æŸ¥æ‰¾
-	ListNodePos(T) search(T const& e) const { return search(e, _size, tailer); }
+	//ÓĞĞòÁĞ±í²éÕÒ
+	ListNodePos(T) search(T const &e) const { return search(e, _size, tailer); }
 
-	//æœ‰åºåŒºé—´æŸ¥æ‰¾
-	ListNodePos(T) search(T const& e, int n, ListNodePos(T) p) const;
+	//ÓĞĞòÇø¼ä²éÕÒ
+	ListNodePos(T) search(T const &e, int n, ListNodePos(T) p) const;
 
-	//åœ¨påŠå…¶å‰n-1ä¸ªåç»§ä¸­é€‰å‡ºæœ€å¤§è€…
+	//ÔÚp¼°ÆäÇ°n-1¸öºó¼ÌÖĞÑ¡³ö×î´óÕß
 	ListNodePos(T) selectMax(ListNodePos(T) p, int n);
 
-	//æ•´ä½“æœ€å¤§è€…
+	//ÕûÌå×î´óÕß
 	ListNodePos(T) selectMax() { return selectMax(header->succ, _size); }
 
-	/****************************** å¯è¯»å†™è®¿é—®æ¥å£ ******************************/
+	/****************************** ¿É¶ÁĞ´·ÃÎÊ½Ó¿Ú ******************************/
 
-	//å°†eå½“ä½œé¦–èŠ‚ç‚¹æ’å…¥
-	ListNodePos(T) insertAsFirst(T const& e);
+	//½«eµ±×÷Ê×½Úµã²åÈë
+	ListNodePos(T) insertAsFirst(T const &e);
 
-	//å°†eå½“ä½œæœ«èŠ‚ç‚¹æ’å…¥
-	ListNodePos(T) insertAsLast(T const& e);
+	//½«eµ±×÷Ä©½Úµã²åÈë
+	ListNodePos(T) insertAsLast(T const &e);
 
-	//å°†eå½“ä½œpçš„å‰é©±æ’å…¥
-	ListNodePos(T) insertBefore(ListNodePos(T) p, T const& e);
+	//½«eµ±×÷pµÄÇ°Çı²åÈë
+	ListNodePos(T) insertBefore(ListNodePos(T) p, T const &e);
 
-	//å°†eå½“ä½œpçš„åç»§æ’å…¥
-	ListNodePos(T) insertAfter(ListNodePos(T) p, T const& e);
+	//½«eµ±×÷pµÄºó¼Ì²åÈë
+	ListNodePos(T) insertAfter(ListNodePos(T) p, T const &e);
 
-	//åˆ é™¤åˆæ³•ä½ç½®på¤„çš„èŠ‚ç‚¹,è¿”å›è¢«åˆ é™¤çš„èŠ‚ç‚¹
+	//É¾³ıºÏ·¨Î»ÖÃp´¦µÄ½Úµã,·µ»Ø±»É¾³ıµÄ½Úµã
 	T remove(ListNodePos(T) p);
 
-	//å…¨åˆ—è¡¨å½’å¹¶
-	void merge(List<T>& L) { merge(first(), _size, L, L.first(), L._size); }
+	//È«ÁĞ±í¹é²¢
+	void merge(List<T> &L) { merge(first(), _size, L, L.first(), L._size); }
 
-	//åˆ—è¡¨åŒºé—´æ’åº
+	//ÁĞ±íÇø¼äÅÅĞò
 	void sort(ListNodePos(T) p, int n);
 
-	//åˆ—è¡¨æ•´ä½“æ’åº
+	//ÁĞ±íÕûÌåÅÅĞò
 	void sort() { mergeSort(first(), _size); }
 
-	//æ— åºå»é‡
+	//ÎŞĞòÈ¥ÖØ
 	int deduplicate();
 
-	//æœ‰åºå»é‡
+	//ÓĞĞòÈ¥ÖØ
 	int uniquify();
 
-	//å‰åå€’ç½®
+	//Ç°ºóµ¹ÖÃ
 	void reverse();
 
-	/****************************** éå† ******************************/
+	/****************************** ±éÀú ******************************/
 
-	//å‡½æ•°æŒ‡é’ˆéå†ï¼Œå±€éƒ¨ç‰¹æ€§ä¿®æ”¹
-	void traverse(void(*)(T&));
+	//º¯ÊıÖ¸Õë±éÀú£¬¾Ö²¿ÌØĞÔĞŞ¸Ä
+	void traverse(void (*)(T &));
 
-	//å‡½æ•°å¯¹è±¡ï¼Œå…¨å±€æ€§ä¿®æ”¹
+	//º¯Êı¶ÔÏó£¬È«¾ÖĞÔĞŞ¸Ä
 	template <typename VST>
-	void traverse(VST&);
+	void traverse(VST &);
 };
 
-template<typename T>
+template <typename T>
 void List<T>::init()
 {
 	header = new ListNode<T>;
 	tailer = new ListNode<T>;
-	
+
 	header->succ = tailer;
 	header->pred = NULL;
 
@@ -153,24 +152,29 @@ void List<T>::init()
 	_size = 0;
 }
 
-template<typename T>
+template <typename T>
 int List<T>::clear()
 {
 	int oldSize = _size;
-	while (0 < _size) {
+	while (0 < _size)
+	{
 		remove(header->succ);
 	}
 	return oldSize;
 }
 
-template<typename T>
-void List<T>::mergeSort(ListNodePos(T)& p, int n)
+template <typename T>
+void List<T>::mergeSort(ListNodePos(T) & p, int n)
 {
-	if (n < 2) { return; }
+	if (n < 2)
+	{
+		return;
+	}
 
 	int m = n >> 1;
 	ListNodePos(T) q = p;
-	for (int i = 0; i < m; i++) {
+	for (int i = 0; i < m; i++)
+	{
 		q = q->succ;
 	}
 	mergeSort(p, m);
@@ -178,19 +182,23 @@ void List<T>::mergeSort(ListNodePos(T)& p, int n)
 	merge(p, m, *this, q, n - m);
 }
 
-template<typename T>
-void List<T>::merge(ListNodePos(T)& p, int n, List<T>& L, ListNodePos(T) q, int m)
+template <typename T>
+void List<T>::merge(ListNodePos(T) & p, int n, List<T> &L, ListNodePos(T) q, int m)
 {
 	ListNodePos(T) tp = p;
 	ListNodePos(T) pp = tp->pred;
-	while (0 < m) {
-		if ((0 < n) && (tp->data <= q->data)) {
-			if (q == (tp = tp->succ)) {
+	while (0 < m)
+	{
+		if ((0 < n) && (tp->data <= q->data))
+		{
+			if (q == (tp = tp->succ))
+			{
 				break;
 			}
 			n--;
 		}
-		else {
+		else
+		{
 			insertBefore(tp, L.remove((q = q->succ)->pred));
 			m--;
 		}
@@ -199,7 +207,8 @@ void List<T>::merge(ListNodePos(T)& p, int n, List<T>& L, ListNodePos(T) q, int 
 }
 
 template <typename T>
-void List<T>::copyNodes(ListNodePos(T) p, int n) {
+void List<T>::copyNodes(ListNodePos(T) p, int n)
+{
 	init();
 	while (n--)
 	{
@@ -209,8 +218,10 @@ void List<T>::copyNodes(ListNodePos(T) p, int n) {
 }
 
 template <typename T>
-void List<T>::insertSort(ListNodePos(T) p, int n) {
-	for (int r = 0; r < n; r++) {
+void List<T>::insertSort(ListNodePos(T) p, int n)
+{
+	for (int r = 0; r < n; r++)
+	{
 		insertAfter(search(p->data, r, p), p->data);
 		p = p->succ;
 		remove(p->pred);
@@ -218,40 +229,43 @@ void List<T>::insertSort(ListNodePos(T) p, int n) {
 }
 
 template <typename T>
-void List<T>::selectionSort(ListNodePos(T) p, int n) {
+void List<T>::selectionSort(ListNodePos(T) p, int n)
+{
 	ListNodePos(T) head = p->pred;
 	ListNodePos(T) tail = p;
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; i++)
+	{
 		tail = tail->succ;
 	}
-	
-	while (1 < n) {
-		ListNodePos(T) max = selectMax(head -> succ, n);
+
+	while (1 < n)
+	{
+		ListNodePos(T) max = selectMax(head->succ, n);
 		insertBefore(tail, remove(max));
 		tail = tail->pred;
 		n--;
 	}
 }
 
-template<typename T>
-List<T>::List(List<T> const& L)
+template <typename T>
+List<T>::List(List<T> const &L)
 {
 	copyNodes(L.header, L._size);
 }
 
-template<typename T>
-List<T>::List(List<T> const& L, Rank r, int n)
+template <typename T>
+List<T>::List(List<T> const &L, Rank r, int n)
 {
 	copyNodes(L[r], n);
 }
 
-template<typename T>
+template <typename T>
 List<T>::List(ListNodePos(T) p, int n)
 {
 	copyNodes(p, n);
 }
 
-template<typename T>
+template <typename T>
 List<T>::~List()
 {
 	clear();
@@ -259,8 +273,8 @@ List<T>::~List()
 	delete tailer;
 }
 
-template<typename T>
-T& List<T>::operator[](Rank r) const
+template <typename T>
+T &List<T>::operator[](Rank r) const
 {
 	ListNodePos(T) p = first();
 	while (0 < r--)
@@ -270,11 +284,12 @@ T& List<T>::operator[](Rank r) const
 	return p->data;
 }
 
-template<typename T>
+template <typename T>
 int List<T>::disOrdered() const
 {
 	int cnt = 0;
-	if (_size < 2) {
+	if (_size < 2)
+	{
 		return cnt;
 	}
 
@@ -284,7 +299,8 @@ int List<T>::disOrdered() const
 	int index = 1;
 	while (index++ < _size)
 	{
-		if (pre->data > curr->data) {
+		if (pre->data > curr->data)
+		{
 			cnt++;
 		}
 		pre = curr;
@@ -294,35 +310,41 @@ int List<T>::disOrdered() const
 	return cnt;
 }
 
-template<typename T>
-ListNodePos(T) List<T>::find(T const& e, int n, ListNodePos(T) p) const
+template <typename T>
+ListNodePos(T) List<T>::find(T const &e, int n, ListNodePos(T) p) const
 {
-	while (0 < n--) {
-		if ((p = p->pred)->data == e) {
+	while (0 < n--)
+	{
+		if ((p = p->pred)->data == e)
+		{
 			return p;
 		}
 	}
 	return NULL;
 }
 
-template<typename T>
-ListNodePos(T) List<T>::search(T const& e, int n, ListNodePos(T) p) const
+template <typename T>
+ListNodePos(T) List<T>::search(T const &e, int n, ListNodePos(T) p) const
 {
-	//=å·åœ¨æœªæ‰¾åˆ°çš„æƒ…å†µä¸‹è¿”å›headerèŠ‚ç‚¹
-	while (0 <= n--) {
-		if ((p = p->pred)->data <= e) {
+	//=ºÅÔÚÎ´ÕÒµ½µÄÇé¿öÏÂ·µ»Øheader½Úµã
+	while (0 <= n--)
+	{
+		if ((p = p->pred)->data <= e)
+		{
 			break;
 		}
 	}
 	return p;
 }
 
-template<typename T>
+template <typename T>
 ListNodePos(T) List<T>::selectMax(ListNodePos(T) p, int n)
 {
 	ListNodePos(T) max = p;
-	while (0 < --n) {
-		if ((p = p->succ)->data >= max->data) {
+	while (0 < --n)
+	{
+		if ((p = p->succ)->data >= max->data)
+		{
 			max = p;
 		}
 	}
@@ -330,35 +352,35 @@ ListNodePos(T) List<T>::selectMax(ListNodePos(T) p, int n)
 	return max;
 }
 
-template<typename T>
-ListNodePos(T) List<T>::insertAsFirst(T const& e)
+template <typename T>
+ListNodePos(T) List<T>::insertAsFirst(T const &e)
 {
 	_size++;
 	return header->insertAsSucc(e);
 }
 
-template<typename T>
-ListNodePos(T) List<T>::insertAsLast(T const& e)
+template <typename T>
+ListNodePos(T) List<T>::insertAsLast(T const &e)
 {
 	_size++;
 	return tailer->insertAsPred(e);
 }
 
-template<typename T>
-ListNodePos(T) List<T>::insertBefore(ListNodePos(T) p, T const& e)
+template <typename T>
+ListNodePos(T) List<T>::insertBefore(ListNodePos(T) p, T const &e)
 {
 	_size++;
 	return p->insertAsPred(e);
 }
 
-template<typename T>
-ListNodePos(T) List<T>::insertAfter(ListNodePos(T) p, T const& e)
+template <typename T>
+ListNodePos(T) List<T>::insertAfter(ListNodePos(T) p, T const &e)
 {
 	_size++;
 	return p->insertAsSucc(e);
 }
 
-template<typename T>
+template <typename T>
 T List<T>::remove(ListNodePos(T) p)
 {
 	T e = p->data;
@@ -369,15 +391,19 @@ T List<T>::remove(ListNodePos(T) p)
 	return e;
 }
 
-template<typename T>
+template <typename T>
 int List<T>::deduplicate()
 {
-	if (_size < 2) { return 0; }
+	if (_size < 2)
+	{
+		return 0;
+	}
 
 	int oldSize = _size;
 	ListNodePos(T) curr = first();
 	int index = 1;
-	while ((curr = curr -> succ) != tailer) {
+	while ((curr = curr->succ) != tailer)
+	{
 		ListNodePos(T) p = find(curr->data, index, curr);
 		p ? remove(p) : index++;
 	}
@@ -385,38 +411,47 @@ int List<T>::deduplicate()
 	return oldSize - _size;
 }
 
-template<typename T>
+template <typename T>
 int List<T>::uniquify()
 {
-	if (_size < 2) { return 0; }
+	if (_size < 2)
+	{
+		return 0;
+	}
 
 	int oldSize = _size;
 	ListNodePos(T) curr = first();
-	while (curr -> succ != tailer) {
-		if (curr->data != curr->succ->data) {
+	while (curr->succ != tailer)
+	{
+		if (curr->data != curr->succ->data)
+		{
 			curr = curr->succ;
 		}
-		else {
+		else
+		{
 			remove(curr->succ);
 		}
 	}
 	return _size - oldSize;
 }
 
-template<typename T>
-void List<T>::traverse(void(* fn)(T&))
+template <typename T>
+void List<T>::traverse(void (*fn)(T &))
 {
 	ListNodePos(T) pos = header;
-	while ((pos = pos->succ) != tailer) {
-		fn(pos -> data);
+	while ((pos = pos->succ) != tailer)
+	{
+		fn(pos->data);
 	}
 }
 
-template<typename T>
-template<typename VST> 
-void List<T>::traverse(VST& visit) {
+template <typename T>
+template <typename VST>
+void List<T>::traverse(VST &visit)
+{
 	ListNodePos(T) pos = header;
-	while ((pos = pos->succ) != tailer) {
+	while ((pos = pos->succ) != tailer)
+	{
 		visit(pos->data);
 	}
 }

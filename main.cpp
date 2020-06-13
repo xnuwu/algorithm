@@ -1,29 +1,23 @@
+#include <string>
 #include <iostream>
-#include "BinTree.h"
+#include <queue>
+#include "Huffman.h"
+#include "Bitmap.h"
 
-template <typename T>
-class Print
-{
-public:
-    void operator()(T e)
-    {
-        std::cout << e << std::endl;
-    }
-};
+using namespace std;
 
 int main(int argc, char *argv[])
 {
-    BinTree<int> bi;
-    Print<int> pi;
-    bi.insertAsRoot(10);
-    bi.insertAsLC(bi.root(), 5);
-    bi.insertAsRC(bi.root(), 15);
-    bi.insertAsLC(bi.root()->lChild, 2);
-    bi.insertAsRC(bi.root()->rChild, 17);
-
-    std::cout << std::endl;
-    bi.root()->travInI3(bi.root(), pi);
-    bi.root()->travLevel(pi);
-
+    Bitmap bitmap(12);
+    bitmap.set(5);
+    bitmap.set(1);
+    bitmap.set(2);
+    bitmap.set(3);
+    bitmap.set(4);
+    bitmap.set(12);
+    bitmap.dump("D:\\dump.bin");
+    cout << bitmap.toString(20) << endl;
+    Bitmap bitfile("D:\\dump.bin", 50);
+    cout << bitfile.toString(20) << endl;
     return 0;
 }

@@ -157,9 +157,12 @@
   <ItemGroup>
     <ClInclude Include="BinNode.h" />
     <ClInclude Include="BinTree.h" />
+    <ClInclude Include="Bitmap.h" />
     <ClInclude Include="Convert.h" />
     <ClInclude Include="ExpParen.h" />
     <ClInclude Include="Fibonacci.h" />
+    <ClInclude Include="Huffman.h" />
+    <ClInclude Include="HuffmanTree.h" />
     <ClInclude Include="LCS.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="ListNode.h" />

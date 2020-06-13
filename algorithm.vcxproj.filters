@@ -95,6 +95,15 @@
     <ClInclude Include="Release.h">
       <Filter>头文件\common</Filter>
     </ClInclude>
+    <ClInclude Include="Huffman.h">
+      <Filter>头文件\chapter5</Filter>
+    </ClInclude>
+    <ClInclude Include="HuffmanTree.h">
+      <Filter>头文件\chapter5</Filter>
+    </ClInclude>
+    <ClInclude Include="Bitmap.h">
+      <Filter>头文件\chapter2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
