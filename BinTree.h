@@ -152,7 +152,7 @@ BinNodePosi(T) BinTree<T>::attachAsLC(BinNodePosi(T) x, BinTree<T> *&st)
 	_size += st->_size;
 	updateHeightAbove(x);
 
-	st->size = 0;
+	st->_size = 0;
 	st->_root = nullptr;
 	release(st);
 	st = nullptr;

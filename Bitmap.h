@@ -11,11 +11,11 @@ public:
 		init(bitSize);
 	}
 
-	Bitmap(const char* filename, int bitSize) {
-		init(bitSize);
-		std::ifstream is(filename);
+	Bitmap(const std::string filename, int bs) {
+		init(bs);
+		std::ifstream is(filename, std::ifstream::binary);
 		if (is) {
-			is.read(_basePtr, (bitSize + 7) / 8);
+			is.read(_basePtr, bs);
 			is.close();
 		}
 		else {
@@ -59,10 +59,12 @@ public:
 		bitSize = bs;
 	}
 
-	void dump(const char* filename) {
+	void dump(const std::string filename) {
 		std::ofstream os(filename);
 		if (os) {
-			os.write(_basePtr, (bitSize + 7) / 8);
+			for (int i = 0; i < (bitSize + 7) / 8; i++) {
+				os << _basePtr[i];
+			}
 			os.flush();
 			os.close();
 		}
@@ -72,37 +74,37 @@ public:
 	}
 
 	void set(int i) {
-		expand(i);
+		expand(i + 1);
 		int chIndex = i / 8;
 		int bitIndex = i % 8;
 
-		char flag = 1 << bitIndex;
+		int flag = 1 << bitIndex;
 		_basePtr[chIndex] |= flag;
 	}
 
 	void clear(int i) {
-		expand(i);
+		expand(i + 1);
 		int chIndex = i / 8;
 		int bitIndex = i % 8;
 
-		char flag = 1;
+		int flag = 1;
 		flag <<= bitIndex;
 		flag = ~flag;
 		_basePtr[chIndex] &= flag;
 	}
 
 	bool test(int i) {
-		expand(i);
+		expand(i + 1);
 		int chIndex = i / 8;
 		int bitIndex = i % 8;
 
-		char flag = 1;
+		int flag = 1;
 		flag <<= bitIndex;
 		return flag & _basePtr[chIndex];
 	}
 
 	char* toString(int n) {
-		expand(n - 1);
+		expand(n);
 		char* s = new char[n + 1];
 		s[n] = '\0';
 		for (int i = 0; i < n; i++) {
@@ -114,5 +116,6 @@ public:
 	~Bitmap() {
 		delete[] _basePtr;
 		_basePtr = nullptr;
+		bitSize = 0;
 	}
 };

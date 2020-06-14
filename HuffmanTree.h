@@ -4,19 +4,6 @@
 
 template <typename T>
 class HuffmanTree {
-
-	friend bool operator<(const HuffmanTree<T>& lht, const HuffmanTree<T>& rht) {
-		return lht.weight < rht.weight;
-	}
-
-	friend bool operator>(const HuffmanTree<T>& lht, const HuffmanTree<T>& rht) {
-		return lht.weight > rht.weight;
-	}
-
-	friend bool operator<=(const HuffmanTree<T>& lht, const HuffmanTree<T>& rht) {
-		return (lht.weight < rht.weight) || (lht.weight == rht.weight && lht.treePtr -> root() == lht.treePtr->root() && lht.treePtr->root() != nullptr);
-	}
-
 public:
 	unsigned weight = 0;
 	BinTree<T>* treePtr;
