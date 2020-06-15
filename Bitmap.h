@@ -1,17 +1,19 @@
 #pragma once
 #include <fstream>
 
+typedef unsigned long long size_bt;
+
 class Bitmap {
 private:
 	char* _basePtr;
-	int bitSize;
+	size_bt bitSize;
 
 public:
-	Bitmap(int bitSize = 8) {
+	Bitmap(size_bt bitSize = 8) {
 		init(bitSize);
 	}
 
-	Bitmap(const std::string filename, int bs) {
+	Bitmap(const std::string filename, size_bt bs) {
 		init(bs);
 		std::ifstream is(filename, std::ifstream::binary);
 		if (is) {
@@ -25,33 +27,33 @@ public:
 
 	Bitmap& operator=(Bitmap& bitmap) {
 		init(bitmap.bitSize);
-		int byteSize = (bitSize + 7) / 8;
-		for (int i = 0; i < byteSize; i++) {
+		size_bt byteSize = (bitSize + 7) / 8;
+		for (size_bt i = 0; i < byteSize; i++) {
 			_basePtr[i] = bitmap.getByte(i);
 		}
 		return *this;
 	}
 
-	void init(int bs) {
-		int sz = (bs + 7) / 8;
+	void init(size_bt bs) {
+		size_bt sz = (bs + 7) / 8;
 		_basePtr = new char[sz];
 		bitSize = bs;
 		memset(_basePtr, 0, sz);
 	}
 
-	char getByte(int i) {
+	char getByte(size_bt i) {
 		return _basePtr[i];
 	}
 
-	void expand(int bs) {
-		int newByteSize = (bs + 7) / 8;
-		int byteSize = (bitSize + 7) / 8;
+	void expand(size_bt bs) {
+		size_bt newByteSize = (bs + 7) / 8;
+		size_bt byteSize = (bitSize + 7) / 8;
 		if (byteSize >= newByteSize) return;
 		char* tmp = new char[newByteSize];
-		for (int i = 0; i < byteSize; i++) {
+		for (size_bt i = 0; i < byteSize; i++) {
 			tmp[i] = _basePtr[i];
 		}
-		for (int i = byteSize; i < newByteSize; i++) {
+		for (size_bt i = byteSize; i < newByteSize; i++) {
 			tmp[i] = 0;
 		}
 		delete[] _basePtr;
@@ -62,7 +64,7 @@ public:
 	void dump(const std::string filename) {
 		std::ofstream os(filename, std::ofstream::binary);
 		if (os) {
-			for (int i = 0; i < (bitSize + 7) / 8; i++) {
+			for (size_bt i = 0; i < (bitSize + 7) / 8; i++) {
 				os << _basePtr[i];
 			}
 			os.flush();
@@ -73,41 +75,41 @@ public:
 		}
 	}
 
-	void set(int i) {
+	void set(size_bt i) {
 		expand(i + 1);
-		int chIndex = i / 8;
-		int bitIndex = i % 8;
+		size_bt chIndex = i / 8;
+		size_bt bitIndex = i % 8;
 
-		int flag = 1 << bitIndex;
+		size_bt flag = 1ull << bitIndex;
 		_basePtr[chIndex] |= flag;
 	}
 
-	void clear(int i) {
+	void clear(size_bt i) {
 		expand(i + 1);
-		int chIndex = i / 8;
-		int bitIndex = i % 8;
+		size_bt chIndex = i / 8;
+		size_bt bitIndex = i % 8;
 
-		int flag = 1;
+		size_bt flag = 1;
 		flag <<= bitIndex;
 		flag = ~flag;
 		_basePtr[chIndex] &= flag;
 	}
 
-	bool test(int i) {
+	bool test(size_bt i) {
 		expand(i + 1);
-		int chIndex = i / 8;
-		int bitIndex = i % 8;
+		size_bt chIndex = i / 8;
+		size_bt bitIndex = i % 8;
 
-		int flag = 1;
+		size_bt flag = 1;
 		flag <<= bitIndex;
 		return flag & _basePtr[chIndex];
 	}
 
-	char* toString(int n) {
+	char* toString(size_bt n) {
 		expand(n);
 		char* s = new char[n + 1];
 		s[n] = '\0';
-		for (int i = 0; i < n; i++) {
+		for (size_bt i = 0; i < n; i++) {
 			s[i] = test(i) ? '1' : '0';
 		}
 		return s;

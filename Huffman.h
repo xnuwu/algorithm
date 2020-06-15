@@ -132,7 +132,6 @@ std::string compressFile(HuffmanCodeTable& codeTable, const std::string& filenam
 		is.close();
 
 		std::string compressedFilename = std::string(filename + ".huffmanBin");
-		std::cout << "cData:" << data.toString(index) << std::endl;
 		data.dump(compressedFilename);
 		
 		return compressedFilename;
@@ -149,29 +148,28 @@ std::string decompressFile(BinNode<int>* root, const std::string& compressedFile
 		std::ofstream os(decompressedFile, std::ofstream::binary);
 
 		is.seekg(0, std::ifstream::end);
-		int filesize = is.tellg();
+		unsigned long long filesize = is.tellg();
 		Bitmap data(compressedFilename, filesize * 8);
-		std::cout << "filesize:" << filesize << std::endl;
-		std::cout << "dData:" << data.toString(filesize * 8) << std::endl;
 		BinNode<int>* cursor = root;
 		for (int i = 0; i < filesize * 8;) {
-			if (cursor && IsLeaf(*cursor)) {
-				if (cursor->data != EOF) {
-					std::cout << (char)cursor->data;
-					os << (char)cursor->data;
-					cursor = root;
+			if (cursor) {
+				if (cursor && IsLeaf(*cursor)) {
+					if (cursor->data != EOF) {
+						os << (char)cursor->data;
+						cursor = root;
+					}
+					else {
+						break;
+					}
 				}
-				else {
-					break;
+				else if (data.test(i)) {
+					i++;
+					cursor = cursor->rChild;
 				}
-			}
-			else if (data.test(i)) {
-				i++;
-				cursor = cursor->rChild;
-			}
-			else if (!data.test(i)) {
-				i++;
-				cursor = cursor->lChild;
+				else if (!data.test(i)) {
+					i++;
+					cursor = cursor->lChild;
+				}
 			}
 			else {
 				std::cerr << "error bit " << i << std::endl;
