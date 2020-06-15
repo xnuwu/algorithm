@@ -37,6 +37,9 @@
     <Filter Include="头文件\common">
       <UniqueIdentifier>{d44da07c-3712-4692-b105-48c589c5c5c1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\chapter6">
+      <UniqueIdentifier>{5bd18c5f-3830-49da-89c2-a2c09c959d78}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Fibonacci.cpp">
