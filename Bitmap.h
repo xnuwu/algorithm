@@ -15,7 +15,7 @@ public:
 		init(bs);
 		std::ifstream is(filename, std::ifstream::binary);
 		if (is) {
-			is.read(_basePtr, bs);
+			is.read(_basePtr, (bs + 7) / 8);
 			is.close();
 		}
 		else {
@@ -60,7 +60,7 @@ public:
 	}
 
 	void dump(const std::string filename) {
-		std::ofstream os(filename);
+		std::ofstream os(filename, std::ofstream::binary);
 		if (os) {
 			for (int i = 0; i < (bitSize + 7) / 8; i++) {
 				os << _basePtr[i];

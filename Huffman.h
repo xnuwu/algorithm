@@ -31,9 +31,9 @@ HuffmanForest readFileCharFrequency(const std::string& filename) {
 	std::map<int, unsigned> charFrequency;
 
 	if (is) {
-		char ch;
-		while (is.get(ch), !is.fail()) {
-			charFrequency[(int)ch]++;
+		char* ch = new char;
+		while (is.read(ch, 1), !is.fail()) {
+			charFrequency[(int)(*ch)]++;
 		}
 	}
 	else {
@@ -102,14 +102,14 @@ void genHuffmanCodeTable(HuffmanCodeTable& codeTable, Bitmap& bitmap, int bitInd
 }
 
 std::string compressFile(HuffmanCodeTable& codeTable, const std::string& filename) {
-	std::ifstream is(filename);
+	std::ifstream is(filename, std::ifstream::binary);
 	Bitmap data;
 	unsigned index = 0;
 
 	if (is) {
-		char ch;
-		while (is.get(ch), !is.fail()) {
-			std::string binString = codeTable[(int)ch];
+		char* ch = new char;
+		while (is.read(ch, 1), !is.fail()) {
+			std::string binString = codeTable[(int)(*ch)];
 			for (int i = 0; i < binString.size(); i++, index++) {
 				if (binString[i] == '1') {
 					data.set(index);
@@ -143,10 +143,10 @@ std::string compressFile(HuffmanCodeTable& codeTable, const std::string& filenam
 }
 
 std::string decompressFile(BinNode<int>* root, const std::string& compressedFilename) {
-	std::ifstream is(compressedFilename, std::ifstream::binary | std::ifstream::ate);
+	std::ifstream is(compressedFilename, std::ifstream::binary);
 	if (is) {
-		std::string decompressedFile = compressedFilename + ".de";
-		std::ofstream os(decompressedFile);
+		std::string decompressedFile = compressedFilename + ".de.txt";
+		std::ofstream os(decompressedFile, std::ofstream::binary);
 
 		is.seekg(0, std::ifstream::end);
 		int filesize = is.tellg();

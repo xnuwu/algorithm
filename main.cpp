@@ -26,7 +26,6 @@ int main(int argc, char *argv[])
     std::string compressedFilename = compressFile(table, "D:/temp/I_Have_A_Dream.txt");
     BinNode<int> * root = codeTree->treePtr->root();
     decompressFile(root, compressedFilename);
-
    
     return 0;
 }
