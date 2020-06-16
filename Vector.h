@@ -83,7 +83,10 @@ public:
 	/**************************************** 构造函数 ****************************************/
 
 	//容量c,规模s,默认值v
-	Vector(): _elem(nullptr), _size(0), _capacity(0) {}
+	Vector(int c = VECTOR_DEFAULT_CAPCITY, int s = 0, T v = 0) {
+		_elem = new T[_capacity = c];
+		for (_size = 0; _size < s; _elem[_size++] = v);
+	}
 
 	//数组区间复制
 	Vector(T const* A, Rank lo, Rank hi) {

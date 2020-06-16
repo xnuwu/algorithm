@@ -161,6 +161,7 @@
     <ClInclude Include="Convert.h" />
     <ClInclude Include="ExpParen.h" />
     <ClInclude Include="Fibonacci.h" />
+    <ClInclude Include="Graph.h" />
     <ClInclude Include="Huffman.h" />
     <ClInclude Include="HuffmanTree.h" />
     <ClInclude Include="LCS.h" />

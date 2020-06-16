@@ -25,7 +25,7 @@ public:
 		}
 	}
 
-	Bitmap& operator=(Bitmap& bitmap) {
+	Bitmap& operator=(const Bitmap& bitmap) {
 		init(bitmap.bitSize);
 		size_bt byteSize = (bitSize + 7) / 8;
 		for (size_bt i = 0; i < byteSize; i++) {
@@ -41,7 +41,7 @@ public:
 		memset(_basePtr, 0, sz);
 	}
 
-	char getByte(size_bt i) {
+	char getByte(size_bt i) const {
 		return _basePtr[i];
 	}
 
