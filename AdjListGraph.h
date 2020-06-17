@@ -1,8 +1,9 @@
 #pragma once
+#include "List.h"
 #include "Vector.h"
 #include "Graph.h"
 
-template <typename Tv> 
+template <typename Tv, typename Te>
 class Vertex {
 public:
 	Tv data;
@@ -13,31 +14,33 @@ public:
 	int fTime;
 	int parent;
 	int priority;
-	Vertex(Tv const& d = (Tv)0 ) : data(d), inDegree(0), outDegree(0), status(UNDISCOVERED), dTime(-1), fTime(-1), parent(-1), priority(INT_MAX) {}
+	List<Edge<Te>*> edgePtrList;
+	Vertex(Tv const& d = (Tv)0) : data(d), inDegree(0), outDegree(0), status(UNDISCOVERED), dTime(-1), fTime(-1), parent(-1), priority(INT_MAX), edgePtrList(List<Edge<Te>*>()) {}
 };
 
-template <typename Te> 
+template <typename Te>
 class Edge {
 public:
 	Te data;
 	int weight;
 	EStatus status;
-	Edge(Te const& d, int w) : data(d), weight(w), status(UNDETERMINED) {}
+	int vertexIndex;
+	Edge(Te const& d, int v, int w) : data(d), vertexIndex(-1), weight(w), status(UNDETERMINED) {}
 };
 
 template <typename Tv, typename Te>
-class GraphMatrix : public Graph<Tv, Te> {
+class AdjListMatrix : public Graph<Tv, Te> {
 private:
-	Vector<Vertex<Tv>> V;
-	Vector<Vector<Edge<Te>*>> E;
+	Vector<Vertex<Tv, Te>> V;
 
 public:
-	GraphMatrix() { this->n = this->e = 0; }
+	AdjListMatrix() { this->n = this->e = 0; }
 
-	virtual ~GraphMatrix() {
+	virtual ~AdjListMatrix() {
 		for (int i = 0; i < this->n; i++) {
-			for (int j = 0; j < this->n; j++) {
-				delete E[i][j];
+			while (!V[i].edgePtrList.empty())
+			{
+				delete V[i].edgePtrList.remove(V[i].edgePtrList.first());
 			}
 		}
 	}
@@ -57,7 +60,7 @@ public:
 	}
 
 	virtual int firstNbr(int i) {
-		return nextNbr(i, this -> n);
+		return nextNbr(i, this->n);
 	}
 
 	virtual int nextNbr(int i, int j) {
@@ -85,33 +88,30 @@ public:
 		return V[i].fTime;
 	}
 
-	virtual int insert(Tv const& vertex) {
-		for (int i = 0; i < this->n; i++) {
-			E[i].insert(nullptr);
-		}
+	virtual int insert(Tv const& data) {
 		this->n++;
-		E.insert(Vector<Edge<Te>*>(this->n, this->n, (Edge<Te>*)nullptr));
-		return V.insert(Vertex<Tv>(vertex));
+		Vertex<Tv, Te> vertex(data);
+		return V.insert(vertex);
 	}
 
 	virtual Tv remove(int i) {
-		for (int j = 0; j < this->n; j++) {
-			if (exists(i, j)) {
-				delete E[i][j];
-				V[j].inDegree--;
-				this->e--;
-			}
+		while (!V[i].edgePtrList.empty()) {
+			delete V[i].edgePtrList.remove(V[i].edgePtrList.first());
 		}
-		E.remove(i);
 		this->n--;
 		for (int j = 0; j < this->n; j++) {
-			if (exists(j, i)) {
-				delete E[j].remove(i);
-				V[j].outDegree--;
-				this->e--;
-			}
-			else {
-				E[j].remove(i);
+			if (!V[j].edgePtrList.empty()) {
+				Edge<Te>* edgePtr = V[j].edgePtrList.first();
+				while (edgePtr->succ != nullptr) {
+					if (edgePtr->vertexIndex == i) {
+						delete V[j].edgePtrList.remove(edgePtr);
+						V[j].inDegree--;
+						this->e--;
+					}
+					else {
+						edgePtr = edgePtr->succ;
+					}
+				}
 			}
 		}
 
@@ -123,7 +123,19 @@ public:
 	/************************************ ±ßµÄ²Ù×÷ ************************************/
 
 	virtual bool exists(int i, int j) {
-		return (0 <= i) && (i < this->n) && (0 <= j) && (j < this->n) && (E[i][j] != nullptr);
+		if (!V[i].edgePtrList.empty()) {
+			Edge<Te>* edgePtr = V[i].edgePtrList.first();
+			while (edgePtr -> succ != nullptr) {
+				if (edgePtr->vertexIndex == j) {
+					return true;
+				}
+				else {
+					edgePtr = edgePtr->succ;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	virtual EStatus& status(int i, int j) {

@@ -240,7 +240,7 @@ inline bool Vector<T>::bubble(Rank lo, Rank hi)
 	while (++lo < hi) {
 		if (_elem[lo - 1] > _elem[lo]) {
 			sorted = false;
-			swap(lo - 1, lo);
+			swap(_elem[lo - 1], _elem[lo]);
 		}
 	}
 	return sorted;

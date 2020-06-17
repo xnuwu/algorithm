@@ -52,7 +52,7 @@ public:
 	virtual Te remove(int, int) = 0;
 	virtual EStatus& status(int, int) = 0;
 	virtual Te& edge(int, int) = 0;
-	virtual int& weght(int, int) = 0;
+	virtual int& weight(int, int) = 0;
 
 	//À„∑®algorithm
 	void bfs(int);
