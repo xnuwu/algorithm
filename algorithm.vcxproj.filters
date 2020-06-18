@@ -113,6 +113,9 @@
     <ClInclude Include="GraphMatrix.h">
       <Filter>头文件\chapter6</Filter>
     </ClInclude>
+    <ClInclude Include="AdjListGraph.h">
+      <Filter>头文件\chapter6</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

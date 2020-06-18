@@ -3,7 +3,7 @@
 #include "Vector.h"
 #include "Graph.h"
 
-template <typename Tv, typename Te>
+template <typename Tv>
 class Vertex {
 public:
 	Tv data;
@@ -14,8 +14,7 @@ public:
 	int fTime;
 	int parent;
 	int priority;
-	List<Edge<Te>*> edgePtrList;
-	Vertex(Tv const& d = (Tv)0) : data(d), inDegree(0), outDegree(0), status(UNDISCOVERED), dTime(-1), fTime(-1), parent(-1), priority(INT_MAX), edgePtrList(List<Edge<Te>*>()) {}
+	Vertex(Tv const& d = (Tv)0) : data(d), inDegree(0), outDegree(0), status(UNDISCOVERED), dTime(-1), fTime(-1), parent(-1), priority(INT_MAX) {}
 };
 
 template <typename Te>
@@ -24,24 +23,28 @@ public:
 	Te data;
 	int weight;
 	EStatus status;
-	int vertexIndex;
-	Edge(Te const& d, int v, int w) : data(d), vertexIndex(-1), weight(w), status(UNDETERMINED) {}
+	int dest;
+	Edge(Te const& d, int dest, int w) : data(d), dest(dest), weight(w), status(UNDETERMINED) {}
 };
 
 template <typename Tv, typename Te>
-class AdjListMatrix : public Graph<Tv, Te> {
+class AdjListGraph : public Graph<Tv, Te> {
 private:
-	Vector<Vertex<Tv, Te>> V;
+	Vector<Vertex<Tv>> V;
+	Vector<List<Edge<Te>*>*> E;
 
 public:
-	AdjListMatrix() { this->n = this->e = 0; }
+	AdjListGraph() {
+		this->n = this->e = 0;
+	}
 
-	virtual ~AdjListMatrix() {
-		for (int i = 0; i < this->n; i++) {
-			while (!V[i].edgePtrList.empty())
+	virtual ~AdjListGraph() {
+		for (int i = 0; i < this->e; i++) {
+			while (!(E[i]->empty()))
 			{
-				delete V[i].edgePtrList.remove(V[i].edgePtrList.first());
+				delete (E[i]->remove(E[i]->first()));
 			}
+			delete E.remove(i);
 		}
 	}
 
@@ -89,28 +92,30 @@ public:
 	}
 
 	virtual int insert(Tv const& data) {
+		List<Edge<Te>*>* edgePtrList = new List<Edge<Te>*>();
+		E.insert(edgePtrList);
 		this->n++;
-		Vertex<Tv, Te> vertex(data);
+		Vertex<Tv> vertex(data);
 		return V.insert(vertex);
 	}
 
 	virtual Tv remove(int i) {
-		while (!V[i].edgePtrList.empty()) {
-			delete V[i].edgePtrList.remove(V[i].edgePtrList.first());
+		while (!E.empty() && !(E[i]->empty())) {
+			delete E[i]->remove(E[i]->first());
 		}
+		delete E.remove(i);
 		this->n--;
 		for (int j = 0; j < this->n; j++) {
-			if (!V[j].edgePtrList.empty()) {
-				Edge<Te>* edgePtr = V[j].edgePtrList.first();
-				while (edgePtr->succ != nullptr) {
-					if (edgePtr->vertexIndex == i) {
-						delete V[j].edgePtrList.remove(edgePtr);
+			if (E[j] && !(E[j]->empty())) {
+				ListNodePos(Edge<Te>*) nodePtr = E[j]->first();
+				while (nodePtr->succ != nullptr) {
+					if (nodePtr->data->dest == i) {
+						delete E[j]->remove(nodePtr);
 						V[j].inDegree--;
 						this->e--;
+						break;
 					}
-					else {
-						edgePtr = edgePtr->succ;
-					}
+					nodePtr = nodePtr->succ;
 				}
 			}
 		}
@@ -122,46 +127,52 @@ public:
 
 	/************************************ ±ßµÄ²Ù×÷ ************************************/
 
-	virtual bool exists(int i, int j) {
-		if (!V[i].edgePtrList.empty()) {
-			Edge<Te>* edgePtr = V[i].edgePtrList.first();
-			while (edgePtr -> succ != nullptr) {
-				if (edgePtr->vertexIndex == j) {
-					return true;
+	ListNodePos(Edge<Te>*) getEdgeNodePtr(int i, int j) {
+		if (!E.empty() && E[i] && !(E[i]->empty())) {
+			ListNodePos(Edge<Te>*) nodePtr = E[i]->first();
+			while (nodePtr->succ != nullptr) {
+				if (nodePtr->data->dest == j) {
+					return nodePtr;
 				}
-				else {
-					edgePtr = edgePtr->succ;
-				}
+				nodePtr = nodePtr->succ;
 			}
 		}
 
-		return false;
+		return nullptr;
+	}
+
+	virtual bool exists(int i, int j) {
+		return ((0 <= i) && (i < this->n) && (0 <= j) && (j < this->n)) && getEdgeNodePtr(i, j) != nullptr;
 	}
 
 	virtual EStatus& status(int i, int j) {
-		return E[i][j]->status;
+		ListNodePos(Edge<Te>*) nodePtr = getEdgeNodePtr(i, j);
+		return nodePtr->data->status;
 	}
 
 	virtual Te& edge(int i, int j) {
-		return E[i][j]->data;
+		ListNodePos(Edge<Te>*) nodePtr = getEdgeNodePtr(i, j);
+		return nodePtr->data->data;
 	}
 
 	virtual int& weight(int i, int j) {
-		return E[i][j]->weight;
+		ListNodePos(Edge<Te>*) nodePtr = getEdgeNodePtr(i, j);
+		return nodePtr->data->weight;
 	}
 
 	virtual void insert(Te const& edge, int w, int i, int j) {
 		if (exists(i, j)) return;
-		E[i][j] = new Edge<Te>(edge, w);
+		Edge<Te>* edgePtr = new Edge<Te>(edge, j, w);
 		this->e++;
+		E[i]->insertAsLast(edgePtr);
 		V[i].outDegree++;
 		V[j].inDegree++;
 	}
 
 	virtual Te remove(int i, int j) {
-		Te data = edge(i, j);
-		delete E[i][j];
-		E[i][j] = nullptr;
+		ListNodePos(Edge<Te>*) nodePtr = getEdgeNodePtr(i, j);
+		Te data = nodePtr->data->data;
+		delete E[i]->remove(nodePtr);
 		V[i].outDegree--;
 		V[j].inDegree--;
 		this->e--;
