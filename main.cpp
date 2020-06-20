@@ -30,6 +30,10 @@ int main(int argc, char *argv[])
     graph.insert("SC", 0, 7, 2);
     graph.insert("SA", 0, 7, 0);
 
-    graph.bfs(7);
+    Stack<char>* stackPtr = graph.tSort(7);
+    while (!stackPtr -> empty())
+    {
+        std::cout << stackPtr->pop() << std::endl;
+    }
     return 0;
 }

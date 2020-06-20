@@ -4,7 +4,6 @@
 
 typedef enum { UNDISCOVERED, DISCOVERED, VISITED } VStatus;
 
-
 typedef enum {
 	UNDETERMINED,	//´ý¶¨±ß
 	TREE,			//Ê÷±ß
@@ -117,4 +116,92 @@ void Graph<Tv, Te>::bfs(int s)
 			BFS(v, clock);
 		}
 	} while (s != (v = (++v % n)));
+}
+
+template <typename Tv, typename Te> 
+void Graph<Tv, Te>::DFS(int v, int& clock) {
+	status(v) = DISCOVERED;
+	dTime(v) = ++clock;
+	for (int u = firstNbr(v); -1 < u; u = nextNbr(v, u)) {
+		switch (status(u))
+		{
+		case UNDISCOVERED:
+			status(v, u) = TREE;
+			parent(u) = v;
+			DFS(u, clock);
+			break;
+		case DISCOVERED:
+			status(v, u) = BACKWARD;
+		default:
+			status(v, u) = dTime(v) < dTime(u) ? FORWARD : CROSS;
+			break;
+		}
+	}
+	status(v) = VISITED;
+	fTime(v) = ++clock;
+	std::cout << "VISITED " << vertex(v) << " at " << dTime(v) << std::endl;
+}
+
+template <typename Tv, typename Te>
+void Graph<Tv, Te>::dfs(int s) {
+	int v = s;
+	int clock = 0;
+	do {
+		if (status(v) == UNDISCOVERED) {
+			DFS(v, clock);
+		}
+	} while (s != (v = (++v % n)));
+}
+
+template<typename Tv, typename Te>
+Stack<Tv>* Graph<Tv, Te>::tSort(int s)
+{
+	reset();
+	int v = s;
+	int clock = 0;
+	Stack<Tv>* stackPtr = new Stack<Tv>;
+	do {
+		if (status(v) == UNDISCOVERED) {
+			if (!TSort(v, clock, stackPtr)) {
+				while (!stackPtr-> empty())
+				{
+					stackPtr->pop();
+				}
+				break;
+			}
+		}
+	} while (s != (v = (++v % n)));
+
+	return stackPtr;
+}
+
+template<typename Tv, typename Te>
+bool Graph<Tv, Te>::TSort(int v, int& clock, Stack<Tv>* s) {
+	status(v) = DISCOVERED;
+	dTime(v) = ++clock;
+	for (int u = firstNbr(v); -1 < u; u = nextNbr(v, u)) {
+		switch (status(u))
+		{
+		case UNDISCOVERED:
+			status(v, u) = TREE;
+			parent(u) = v;
+			if (!TSort(u, clock, s)) {
+				return false;
+			}
+			break;
+
+		case DISCOVERED:
+			status(v, u) = BACKWARD;	//»·Â·
+			return false;
+
+		default:
+			status(v, u) = dTime(v) < dTime(u) ? FORWARD : CROSS;
+			break;
+		}
+	}
+
+	fTime(v) = ++clock;
+	status(v) = VISITED;
+	s->push(vertex(v));
+	return true;
 }
