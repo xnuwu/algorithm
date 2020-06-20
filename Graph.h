@@ -142,6 +142,43 @@ void Graph<Tv, Te>::DFS(int v, int& clock) {
 	std::cout << "VISITED " << vertex(v) << " at " << dTime(v) << std::endl;
 }
 
+#define hca(x) (fTime(x))
+template<typename Tv, typename Te>
+void Graph<Tv, Te>::BCC(int v, int& clock, Stack<int>& stack)
+{
+	dTime(v) = hca(v) = ++clock;
+	status(v) = DISCOVERED;
+	for (int u = firstNbr(v); -1 < u; u = nextNbr(v, u)) {
+		switch (status(u))
+		{
+		case UNDISCOVERED:
+			parent(u) = v;
+			status(v, u) = TREE;
+			BCC(u, clock, stack);
+			if (hca(u) < dTime(v)) {
+				hca(v) = hca(u) < dTime(v) ? dTime(v) : hca(u);
+			}
+			else {
+				while (v != stack.pop());
+				stack.push(v);
+			}
+			break;
+		case DISCOVERED:
+			status(v, u) = BACKWARD;
+			if (u != parent(v)) {
+				hca(v) = hca(v) < dTime(u) ? hca(v) : dTime(u);
+			}
+			break;
+		default:
+			status(v, u) = dTime(v) < dTime(u) ? FORWARD : CROSS;
+			break;
+		}
+	}
+	status(v) = VISITED;
+}
+
+#undef hca
+
 template <typename Tv, typename Te>
 void Graph<Tv, Te>::dfs(int s) {
 	int v = s;
@@ -149,6 +186,20 @@ void Graph<Tv, Te>::dfs(int s) {
 	do {
 		if (status(v) == UNDISCOVERED) {
 			DFS(v, clock);
+		}
+	} while (s != (v = (++v % n)));
+}
+
+template<typename Tv, typename Te>
+void Graph<Tv, Te>::bcc(int s)
+{
+	int v = s;
+	int clock = 0;
+	Stack<int> stack;
+	do {
+		if (status(v) != UNDISCOVERED) {
+			BCC(s, clock, stack);
+			std::cout << "find BCC Vertex " << stack.pop() << std::endl;
 		}
 	} while (s != (v = (++v % n)));
 }
