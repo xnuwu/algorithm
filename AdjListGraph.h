@@ -39,12 +39,13 @@ public:
 	}
 
 	virtual ~AdjListGraph() {
-		for (int i = 0; i < this->e; i++) {
+		for (int i = this -> n - 1; 0 <= i; i--) {
 			while (!(E[i]->empty()))
 			{
 				delete (E[i]->remove(E[i]->first()));
 			}
-			delete E.remove(i);
+			List<Edge<Te>*>* ptr = E.remove(i);
+			delete ptr;
 		}
 	}
 
@@ -92,7 +93,7 @@ public:
 	}
 
 	virtual int insert(Tv const& data) {
-		List<Edge<Te>*>* edgePtrList = new List<Edge<Te>*>();
+		List<Edge<Te>*>* edgePtrList = new List<Edge<Te>*>;
 		E.insert(edgePtrList);
 		this->n++;
 		Vertex<Tv> vertex(data);

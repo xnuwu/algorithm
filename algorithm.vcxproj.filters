@@ -89,9 +89,6 @@
     <ClInclude Include="PlaceQueen.h">
       <Filter>头文件\chapter4</Filter>
     </ClInclude>
-    <ClInclude Include="Queue.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="BinTree.h">
       <Filter>头文件\chapter5</Filter>
     </ClInclude>
@@ -115,6 +112,9 @@
     </ClInclude>
     <ClInclude Include="AdjListGraph.h">
       <Filter>头文件\chapter6</Filter>
+    </ClInclude>
+    <ClInclude Include="Queue.h">
+      <Filter>头文件\chapter4</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

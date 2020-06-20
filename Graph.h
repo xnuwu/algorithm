@@ -1,8 +1,17 @@
 #pragma once
 #include "Stack.h"
+#include "Queue.h"
 
 typedef enum { UNDISCOVERED, DISCOVERED, VISITED } VStatus;
-typedef enum { UNDETERMINED, TREE, CROSS, FORWARD, BACKWARD } EStatus;
+
+
+typedef enum {
+	UNDETERMINED,	//待定边
+	TREE,			//树边
+	CROSS,			//跨边,
+	FORWARD,		//向前边,父节点访问子节点, eg e(u,v) dTime(u) < dTime(v)
+	BACKWARD		//向后边,子节点访问父节点, eg e(u,v) dTime(u) > dTime(v)
+} EStatus;
 
 template <typename Tv, typename Te>
 class Graph {
@@ -61,6 +70,51 @@ public:
 	Stack<Tv>* tSort(int);
 	void prim(int);
 	void dijkstra(int);
-	
+
 	template<typename PU> void pfs(int, PU);
 };
+
+/************************************ 广度优先遍历 ************************************/
+template<typename Tv, typename Te>
+void Graph<Tv, Te>::BFS(int v, int& clock) {
+	Queue<int> queue;
+	queue.enqueue(v);
+	status(v) = DISCOVERED;
+	while (!queue.empty()) {
+		v = queue.dequeue();
+		dTime(v) = ++clock;
+		for (int u = firstNbr(v); -1 < u; u = nextNbr(v, u)) {
+			switch (status(u))
+			{
+			case UNDISCOVERED:
+				status(u) = DISCOVERED;
+				status(v, u) = TREE;
+				parent(u) = v;
+				queue.enqueue(u);
+				break;
+
+			default:
+				status(v, u) = CROSS;
+				break;
+			}
+		}
+	
+		std::cout << "visited " << vertex(v) << " at " << clock << std::endl;
+		status(v) = VISITED;
+	}
+}
+
+template<typename Tv, typename Te>
+void Graph<Tv, Te>::bfs(int s)
+{
+	reset();
+	int clock = 0;
+	int v = s;
+	do {
+		
+		while (status(v) == UNDISCOVERED)
+		{
+			BFS(v, clock);
+		}
+	} while (s != (v = (++v % n)));
+}

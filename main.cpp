@@ -7,31 +7,29 @@
 
 int main(int argc, char *argv[])
 {
-    AdjListGraph<int, int> matrix;
-    Vertex<int> vertex1(1);
-    Vertex<int> vertex2(1);
-    matrix.insert(10);
-    matrix.insert(11);
-    matrix.insert(12);
-    std::cout << (matrix.n == 3) << std::endl;
-    matrix.insert(100, 50, 0, 1);
-    matrix.insert(101, 40, 0, 2);
-    std::cout << (matrix.e == 2) << std::endl;
-    matrix.insert(13);
-    std::cout << (matrix.n == 4) << std::endl;
-    std::cout << matrix.exists(0, 1) << std::endl;
-    std::cout << matrix.exists(0, 2) << std::endl;
-    std::cout << (matrix.exists(0, 3) == false ) << std::endl;
-    std::cout << (matrix.e == 2) << std::endl;
-    std::cout << (matrix.n == 4) << std::endl;
+   
+    AdjListGraph<char, const char*> graph;
+    graph.insert('A');
+    graph.insert('B');
+    graph.insert('C');
+    graph.insert('D');
+    graph.insert('E');
+    graph.insert('F');
+    graph.insert('G');
+    graph.insert('S');
 
-    std::cout << (matrix.inDegree(2) == 1) << std::endl;
-    std::cout << (matrix.outDegree(0) == 2) << std::endl;
-    std::cout << (matrix.edge(0, 1) == 100) << std::endl;
-    std::cout << matrix.remove(0,1) << std::endl;
-    std::cout << (matrix.exists(0, 1) == false) << std::endl;
-    std::cout << (matrix.e == 1) << std::endl;
-    std::cout << (matrix.n == 4) << std::endl;
+    graph.insert("AE", 0, 0, 4);
+    graph.insert("AC", 0, 0, 2);
+    graph.insert("CB", 0, 2, 1);
+    graph.insert("DB", 0, 3, 1);
+    graph.insert("EG", 0, 4, 6);
+    graph.insert("EF", 0, 4, 5);
+    graph.insert("GB", 0, 6, 1);
+    graph.insert("GF", 0, 6, 5);
+    graph.insert("SD", 0, 7, 3);
+    graph.insert("SC", 0, 7, 2);
+    graph.insert("SA", 0, 7, 0);
 
+    graph.bfs(7);
     return 0;
 }
