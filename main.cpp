@@ -7,7 +7,6 @@
 
 int main(int argc, char *argv[])
 {
-   
     AdjListGraph<char, const char*> graph;
     graph.insert('A');  //0
     graph.insert('B');  //1
