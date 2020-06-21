@@ -148,6 +148,7 @@ void Graph<Tv, Te>::BCC(int v, int& clock, Stack<int>& stack)
 {
 	dTime(v) = hca(v) = ++clock;
 	status(v) = DISCOVERED;
+	stack.push(v);
 	for (int u = firstNbr(v); -1 < u; u = nextNbr(v, u)) {
 		switch (status(u))
 		{
@@ -156,7 +157,7 @@ void Graph<Tv, Te>::BCC(int v, int& clock, Stack<int>& stack)
 			status(v, u) = TREE;
 			BCC(u, clock, stack);
 			if (hca(u) < dTime(v)) {
-				hca(v) = hca(u) < dTime(v) ? dTime(v) : hca(u);
+				hca(v) = hca(u) < hca(v) ? hca(u) : hca(v);
 			}
 			else {
 				while (v != stack.pop());
@@ -166,7 +167,7 @@ void Graph<Tv, Te>::BCC(int v, int& clock, Stack<int>& stack)
 		case DISCOVERED:
 			status(v, u) = BACKWARD;
 			if (u != parent(v)) {
-				hca(v) = hca(v) < dTime(u) ? hca(v) : dTime(u);
+				hca(v) = hca(v) < dTime(u) ? hca(v) : dTime(u); 
 			}
 			break;
 		default:
@@ -197,9 +198,9 @@ void Graph<Tv, Te>::bcc(int s)
 	int clock = 0;
 	Stack<int> stack;
 	do {
-		if (status(v) != UNDISCOVERED) {
+		if (status(v) == UNDISCOVERED) {
 			BCC(s, clock, stack);
-			std::cout << "find BCC Vertex " << stack.pop() << std::endl;
+			stack.pop();
 		}
 	} while (s != (v = (++v % n)));
 }
