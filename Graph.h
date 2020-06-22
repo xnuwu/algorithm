@@ -259,3 +259,71 @@ bool Graph<Tv, Te>::TSort(int v, int& clock, Stack<Tv>* s) {
 	s->push(vertex(v));
 	return true;
 }
+
+template <typename Tv, typename Te>
+template <typename PU>
+void Graph<Tv, Te>::PFS(int s, PU priorityUpdator) {
+	priority(s) = 0;
+	status(s) = VISITED;
+	parent(s) = -1;
+
+	while (true)
+	{
+		for (int w = firstNbr(s); -1 < w; w = nextNbr(s, w)) {
+			priorityUpdator(this, s, w);
+		}
+		for (int shortest = INT_MAX, w = 0; w < n; v++) {
+			if (status(v) == UNDISCOVERED) {
+				if (shortest > priority(w)) {
+					shortest = priority(w);
+					s = w;
+				}
+			}
+		}
+		if (status(s) == VISITED) {
+			break;
+		}
+		status(s) = VISITED;
+		status(parent(s), s) = TREE;
+		std::cout << "VISITED " << vertex(s) << std::endl;
+	}
+}
+
+template<typename Tv, typename Te> 
+template<typename PU>
+void Graph<Tv, Te>::pfs(int s, PU priorityUpdator) {
+	reset();
+	int v = s;
+	do {
+		if (UNDISCOVERED == status(v)) {
+			PFS(v, priorityUpdator);
+		}
+	} while (s != (v = (++v % n)));
+}
+
+template<typename Tv, typename Te>
+class DfsPu {
+public:
+	virtual void operator()(Graph<Tv, Te>* graphPtr, int s, int v) {
+		if (graphPtr->status(v) == UNDISCOVERED) {
+			if (graphPtr->priority(v) > graphPtr->priority(s) - 1) {
+				graphPtr->priority(v) = graphPtr->priority(s) - 1;
+				graphPtr->parent(v) = s;
+				return;
+			}
+		}
+	}
+};
+
+template <typename Tv, typename Te>
+class BfsPu {
+public:
+	virtual void operator()(Graph<Tv, Te>* graphPtr, int s, int v) {
+		if (graphPtr->status(v) == UNDISCOVERED) {
+			if (graphPtr->priority(s) + 1 < graphPtr->priority(v)) {
+				graphPtr->priority(v) = graphPtr->priority(s) + 1;
+				graphPtr->parent(v) = s;
+			}
+		}
+	}
+};
