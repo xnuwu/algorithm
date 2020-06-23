@@ -266,14 +266,14 @@ void Graph<Tv, Te>::PFS(int s, PU priorityUpdator) {
 	priority(s) = 0;
 	status(s) = VISITED;
 	parent(s) = -1;
-
+	std::cout << "PFS VISITED " << vertex(s) << std::endl;
 	while (true)
 	{
 		for (int w = firstNbr(s); -1 < w; w = nextNbr(s, w)) {
 			priorityUpdator(this, s, w);
 		}
-		for (int shortest = INT_MAX, w = 0; w < n; v++) {
-			if (status(v) == UNDISCOVERED) {
+		for (int shortest = INT_MAX, w = 0; w < n; w++) {
+			if (status(w) == UNDISCOVERED) {
 				if (shortest > priority(w)) {
 					shortest = priority(w);
 					s = w;
@@ -285,7 +285,7 @@ void Graph<Tv, Te>::PFS(int s, PU priorityUpdator) {
 		}
 		status(s) = VISITED;
 		status(parent(s), s) = TREE;
-		std::cout << "VISITED " << vertex(s) << std::endl;
+		std::cout << "PFS VISITED " << vertex(s) << std::endl;
 	}
 }
 
@@ -327,3 +327,44 @@ public:
 		}
 	}
 };
+
+template<typename Tv, typename Te> 
+class PrimUpdator {
+public:
+	virtual void operator()(Graph<Tv, Te>* graphPtr, int s, int v) {
+		if (graphPtr->status(v) == UNDISCOVERED) {
+			if (graphPtr->priority(v) > graphPtr->weight(s, v)) {
+				graphPtr->priority(v) = graphPtr->weight(s, v);
+				graphPtr->parent(v) = s;
+			}
+		}
+	}
+};
+
+template<typename Tv, typename Te>
+void Graph<Tv, Te>::prim(int s)
+{
+	PrimUpdator<Tv, Te> primUpdator;
+	pfs(s, primUpdator);
+}
+
+
+template<typename Tv, typename Te>
+class DijstraUpdator {
+public:
+	virtual void operator()(Graph<Tv, Te>* graphPtr, int s, int v) {
+		if (graphPtr->status(v) == UNDISCOVERED) {
+			if (graphPtr->priority(v) > graphPtr->priority(s) + graphPtr->weight(s, v)) {
+				graphPtr->priority(v) = graphPtr->priority(s) + graphPtr->weight(s, v);
+				graphPtr->parent(v) = s;
+			}
+		}
+	}
+};
+
+template<typename Tv, typename Te>
+void Graph<Tv, Te>::dijkstra(int s)
+{
+	DijstraUpdator<Tv, Te> dijstraUpdator;
+	pfs(s, dijstraUpdator);
+}
