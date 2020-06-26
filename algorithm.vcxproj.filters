@@ -40,6 +40,9 @@
     <Filter Include="头文件\chapter6">
       <UniqueIdentifier>{5bd18c5f-3830-49da-89c2-a2c09c959d78}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\chapter7">
+      <UniqueIdentifier>{2a6ef269-a01d-435d-905a-b72e69b124b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Fibonacci.cpp">
@@ -115,6 +118,12 @@
     </ClInclude>
     <ClInclude Include="Queue.h">
       <Filter>头文件\chapter4</Filter>
+    </ClInclude>
+    <ClInclude Include="Entry.h">
+      <Filter>头文件\chapter7</Filter>
+    </ClInclude>
+    <ClInclude Include="Bst.h">
+      <Filter>头文件\chapter7</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

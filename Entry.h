@@ -3,11 +3,11 @@ template<typename K, typename V>
 class Entry {
 public:
 	K key;
-	V data;
+	V value;
 	
-	Entry(K& key, V& data) : key(key), data(data) {}
+	Entry(K k = K(), V v = V()) : key(k), value(v) {};
 
-	Entry(Entry<K, V> const& entry): key(entry.key), data(entry.data) {}
+	Entry(Entry<K, V> const& entry): key(entry.key), value(entry.value) {};
 
 	bool operator<(Entry<K, V> const& entry) { return key < entry.key };
 	bool operator>(Entry<K, V> const& entry) { return key > entry.key };

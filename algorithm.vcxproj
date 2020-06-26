@@ -159,6 +159,7 @@
     <ClInclude Include="BinNode.h" />
     <ClInclude Include="BinTree.h" />
     <ClInclude Include="Bitmap.h" />
+    <ClInclude Include="Bst.h" />
     <ClInclude Include="Convert.h" />
     <ClInclude Include="Entry.h" />
     <ClInclude Include="ExpParen.h" />
