@@ -5,6 +5,7 @@ template<typename T>
 class BST : public BinTree<T> {
 private:
 	BinNodePosi(T)& searchIn(BinNodePosi(T)& v, const T& e, BinNodePosi(T)& hot);
+	BinNodePosi(T) removeAt(BinNodePosi(T)& x, BinNodePosi(T)& hot);
 protected:
 
 	//最后一次访问的非空节点位置
@@ -30,6 +31,35 @@ BinNodePosi(T)& BST<T>::searchIn(BinNodePosi(T)& v, const T& e, BinNodePosi(T)& 
 	return searchIn((v->data < e ? v->rChild : v->lChild), e, _hot);
 }
 
+template<typename T>
+BinNodePosi(T) BST<T>::removeAt(BinNodePosi(T)& x, BinNodePosi(T)& hot)
+{
+	BinNodePosi(T) w = x;
+	BinNodePosi(T) succ = nullptr;
+
+	if (!HasLChild(*x)) {
+		succ = x = x->rChild;
+	}else if (!HasRChild(*x)) {
+		succ = x = x->lChild;
+	}
+	else {
+		succ = x->succ();
+		//交换data
+		T tmpData = x->data;
+		x->data = succ->data;
+		succ->data = tmpData;
+
+		BinNodePosi(T) u = succ->parent;
+		(u == x ? u -> rChild : u-> lChild) = succ = x->rChild;
+	}
+	hot = w->parent;
+	if (succ) {
+		succ->parent = hot;
+	}
+	Cleaner<T>::release(w->data);
+	Cleaner<BinNodePosi(T)>::release(w);
+}
+
 template <typename T>
 BinNodePosi(T)& BST<T>::search(const T& e) {
 	return searchIn(_root, e, nullptr);
@@ -48,4 +78,18 @@ BinNodePosi(T) BST<T>::insert(const T& e)
 	++_size;
 	updateHeightAbove(x);
 	return x;
+}
+
+template<typename T>
+inline bool BST<T>::remove(const T& e)
+{
+	BinNodePosi(T) x = search(e);
+	if (!x) {
+		return false;
+	}
+
+	removeAt(x, _hot);
+	--_size;
+	updateHeightAbove(_hot);
+	return true;
 }
