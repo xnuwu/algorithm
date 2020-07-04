@@ -122,7 +122,7 @@
     <ClInclude Include="Entry.h">
       <Filter>头文件\chapter7</Filter>
     </ClInclude>
-    <ClInclude Include="Bst.h">
+    <ClInclude Include="BST.h">
       <Filter>头文件\chapter7</Filter>
     </ClInclude>
   </ItemGroup>

@@ -58,6 +58,7 @@ BinNodePosi(T) BST<T>::removeAt(BinNodePosi(T)& x, BinNodePosi(T)& hot)
 	}
 	Cleaner<T>::release(w->data);
 	Cleaner<BinNodePosi(T)>::release(w);
+	return succ;
 }
 
 template <typename T>
@@ -68,7 +69,7 @@ BinNodePosi(T)& BST<T>::search(const T& e) {
 template<typename T>
 BinNodePosi(T) BST<T>::insert(const T& e)
 {
-	BinNodePosi(T) x = search(e);
+	BinNodePosi(T)& x = search(e);
 	if (x) {
 		return x;
 	}
