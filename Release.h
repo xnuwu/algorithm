@@ -20,6 +20,7 @@ public:
 	static void clean(T* x) {
 		if (x) {
 			delete x;
+			x = nullptr;
 		}
 #ifdef _DEBUG
 		static int n = 0;

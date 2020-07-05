@@ -15,7 +15,7 @@
 #define IsLeaf(x) (!HasChild(x))
 #define sibling(p) (IsLChild(p) ? (p)->parent->rChild : (p)->parent->lChild)
 #define uncle(p) (*(IsLChild(p->parent)) ? (p)->parent->parent->rChild : (p)->parent->parent->lChild)
-#define FromParentTo(x) (IsRoot(x) ? _root : (IsLChild(x) ? (x).parent->lChild : (x).parent->rChild))
+#define FromParentTo(x) (IsRoot(x) ? (this ->_root) : (IsLChild(x) ? (x).parent->lChild : (x).parent->rChild))
 
 typedef enum
 {

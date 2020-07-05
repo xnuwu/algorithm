@@ -156,6 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AdjListGraph.h" />
+    <ClInclude Include="AVL.h" />
     <ClInclude Include="BinNode.h" />
     <ClInclude Include="BinTree.h" />
     <ClInclude Include="Bitmap.h" />

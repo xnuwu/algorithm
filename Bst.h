@@ -3,10 +3,9 @@
 
 template<typename T>
 class BST : public BinTree<T> {
-private:
+protected:
 	BinNodePosi(T)& searchIn(BinNodePosi(T)& v, const T& e, BinNodePosi(T)& hot);
 	BinNodePosi(T) removeAt(BinNodePosi(T)& x, BinNodePosi(T)& hot);
-protected:
 
 	//最后一次访问的非空节点位置
 	BinNodePosi(T) _hot;
@@ -18,6 +17,7 @@ protected:
 	BinNodePosi(T) rotateAt(BinNodePosi(T) x);
 
 public:
+	BST() : _hot(nullptr) {};
 	virtual BinNodePosi(T)& search(const T& e);
 	virtual BinNodePosi(T) insert(const T& e);
 	virtual bool remove(const T& e);
@@ -39,31 +39,32 @@ BinNodePosi(T) BST<T>::removeAt(BinNodePosi(T)& x, BinNodePosi(T)& hot)
 
 	if (!HasLChild(*x)) {
 		succ = x = x->rChild;
-	}else if (!HasRChild(*x)) {
+	}
+	else if (!HasRChild(*x)) {
 		succ = x = x->lChild;
 	}
 	else {
-		succ = x->succ();
+		w = w->succ();
 		//交换data
 		T tmpData = x->data;
-		x->data = succ->data;
-		succ->data = tmpData;
+		x->data = w->data;
+		w->data = tmpData;
 
-		BinNodePosi(T) u = succ->parent;
-		(u == x ? u -> rChild : u-> lChild) = succ = x->rChild;
+		BinNodePosi(T) u = w->parent;
+		(u == x ? u->rChild : u->lChild) = succ = w->rChild;
 	}
 	hot = w->parent;
 	if (succ) {
 		succ->parent = hot;
 	}
-	Cleaner<T>::release(w->data);
-	Cleaner<BinNodePosi(T)>::release(w);
+	release(w->data);
+	release(w);
 	return succ;
 }
 
 template <typename T>
 BinNodePosi(T)& BST<T>::search(const T& e) {
-	return searchIn(_root, e, nullptr);
+	return searchIn(this->_root, e, _hot = nullptr);
 }
 
 template<typename T>
@@ -76,8 +77,8 @@ BinNodePosi(T) BST<T>::insert(const T& e)
 
 	x = new BinNode<T>(e, _hot);
 
-	++_size;
-	updateHeightAbove(x);
+	++(this->_size);
+	this->updateHeightAbove(x);
 	return x;
 }
 
@@ -90,7 +91,67 @@ inline bool BST<T>::remove(const T& e)
 	}
 
 	removeAt(x, _hot);
-	--_size;
-	updateHeightAbove(_hot);
+	--(this->_size);
+	this->updateHeightAbove(_hot);
 	return true;
+}
+
+template <typename T>
+BinNodePosi(T) BST<T>::connect34(BinNodePosi(T) nodeLeft, BinNodePosi(T) nodeMid, BinNodePosi(T) nodeRight, BinNodePosi(T) llSubTree, BinNodePosi(T) lrSubTree, BinNodePosi(T) rlSubTree, BinNodePosi(T) rrSubTree) {
+	nodeLeft->lChild = llSubTree;
+	if (llSubTree) {
+		llSubTree->parent = nodeLeft;
+	}
+	nodeLeft->rChild = lrSubTree;
+	if (lrSubTree) {
+		lrSubTree->parent = nodeLeft;
+	}
+	this->updateHeight(nodeLeft);
+
+	nodeRight->lChild = rlSubTree;
+	if (rlSubTree) {
+		rlSubTree->parent = nodeRight;
+	}
+	nodeRight->rChild = rrSubTree;
+	if (rrSubTree) {
+		rrSubTree->parent = nodeRight;
+	}
+	this->updateHeight(nodeRight);
+
+	nodeMid->lChild = nodeLeft;
+	nodeLeft->parent = nodeMid;
+
+	nodeMid->rChild = nodeRight;
+	nodeRight->parent = nodeMid;
+
+	this->updateHeight(nodeMid);
+
+	return nodeMid;
+}
+
+template <typename T>
+BinNodePosi(T) BST<T>::rotateAt(BinNodePosi(T) x) {
+	BinNodePosi(T) p = x->parent;
+	BinNodePosi(T) g = p->parent;
+
+	if (IsLChild(*p)) {
+		if (IsLChild(*x)) {
+			p->parent = g->parent;
+			return connect34(x, p, g, x->lChild, x->rChild, p->rChild, g->rChild);
+		}
+		else {
+			x->parent = g->parent;
+			return connect34(p, x, g, p->lChild, x->lChild, x->rChild, g->rChild);
+		}
+	}
+	else {
+		if (IsRChild(*x)) {
+			p->parent = g->parent;
+			return connect34(g, p, x, g->lChild, p->lChild, x->lChild, x->rChild);
+		}
+		else {
+			x->parent = g->parent;
+			return connect34(g, x, p, g->lChild, x->lChild, x->rChild, p->rChild);
+		}
+	}
 }
