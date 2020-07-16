@@ -128,6 +128,9 @@
     <ClInclude Include="AVL.h">
       <Filter>头文件\chapter7</Filter>
     </ClInclude>
+    <ClInclude Include="Splay.h">
+      <Filter>头文件\chapter7</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

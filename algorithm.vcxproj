@@ -176,6 +176,7 @@
     <ClInclude Include="Queue.h" />
     <ClInclude Include="Release.h" />
     <ClInclude Include="ReversePolishNotation.h" />
+    <ClInclude Include="Splay.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>

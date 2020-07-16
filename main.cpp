@@ -1,9 +1,9 @@
 #include <string>
 #include <iostream>
-#include "AVL.h"
+#include "Splay.h"
 
 template<typename T>
-class PrintAVL {
+class PrintTree {
 public:
     void operator()(T& e) {
         std::cout << e << " ";
@@ -13,9 +13,9 @@ public:
 int main(int argc, char *argv[])
 {
 
-    PrintAVL<int> pavl;
+    PrintTree<int> pavl;
 
-    AVL<int> avl;
+    Splay<int> avl;
     avl.insert(1);
     avl.insert(2);
     avl.insert(3);
