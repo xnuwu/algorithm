@@ -41,7 +41,7 @@ inline BinNodePosi(T) Splay<T>::splay(BinNodePosi(T) v) {
 	BinNodePosi(T) g;
 	BinNodePosi(T) p;
 	
-	while ((p = v->parnet) && (g = p->parent)) {
+	while ((p = v->parent) && (g = p->parent)) {
 		BinNodePosi(T) gg = g->parent;
 		if (IsLChild(*v)) {
 			if (IsLChild(*p)) {	//zig-zig
@@ -108,11 +108,54 @@ inline BinNodePosi(T)& Splay<T>::search(const T& e)
 template<typename T>
 inline BinNodePosi(T) Splay<T>::insert(const T& e)
 {
-	
+	if (!this->_root) {
+		this->_size++;
+		return this->_root = new BinNode<T>(e);
+	}
+
+	BinNodePosi(T) r = search(e);
+	if (r->data == e) {
+		return this->_root;
+	}
+
+	this->_size++;
+	BinNodePosi(T) t = new BinNode<T>(e);
+	if (r->data < e) {
+		attachAsRChild(t, r->rChild);
+		attachAsLChild(t, r);
+	}
+	else {
+		attachAsLChild(t, r->lChild);
+		attachAsRChild(t, r);
+	}
+	this->updateHeight(t);
+	return this->_root = t;
 }
 
 template<typename T>
 inline bool Splay<T>::remove(const T& e)
 {
-	
+	if (!this->_root) {
+		return false;
+	}
+
+	BinNodePosi(T) r = search(e);
+	if (r->data != e) {
+		return false;
+	}
+	else {
+		BinNodePosi(T) newRoot = r->succ();
+		if (newRoot == this->_root->rChild) {
+			attachAsLChild(newRoot, this->_root->lChild);
+		}
+		else {
+			newRoot->parent->lChild = nullptr;
+			attachAsLChild(newRoot, this->_root->lChild);
+			attachAsRChild(newRoot, this->_root->rChild);
+		}
+	}
+	Cleaner<T>::clean(r->data);
+	Cleaner<BinNodePosi(T)>::clean(r);
+	this->updateHeightAbove(this->_hot);
+	return true;
 }

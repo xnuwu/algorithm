@@ -53,7 +53,7 @@ public:
 	BinNodePosi(T) insertAsLC(T const &e);
 	BinNodePosi(T) insertAsRC(T const &e);
 
-	BinNode() : height(0), parent(nullptr), lChild(nullptr), rChild(nullptr){};
+	BinNode() : height(0), parent(nullptr), lChild(nullptr), rChild(nullptr) {};
 	BinNode(T e, BinNodePosi(T) p = nullptr, BinNodePosi(T) l = nullptr, BinNodePosi(T) r = nullptr, int h = 0) : data(e), parent(p), lChild(l), rChild(r), height(h){};
 
 	BinNode<T>& operator=(const BinNode<T> rbn) const {
