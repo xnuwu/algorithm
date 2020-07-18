@@ -52,8 +52,8 @@ inline BinNodePosi(T) Splay<T>::splay(BinNodePosi(T) v) {
 			}
 			else {	//zig-zag
 				attachAsLChild(p, v->rChild);
-				attachAsRChild(v, p);
 				attachAsRChild(g, v->lChild);
+				attachAsRChild(v, p);
 				attachAsLChild(v, g);
 			}
 		}
@@ -66,8 +66,8 @@ inline BinNodePosi(T) Splay<T>::splay(BinNodePosi(T) v) {
 			}
 			else { //zag-zig
 				attachAsRChild(p, v->lChild);
-				attachAsLChild(v, p);
 				attachAsLChild(g, v->rChild);
+				attachAsLChild(v, p);
 				attachAsRChild(v, g);
 			}
 		}
@@ -92,6 +92,8 @@ inline BinNodePosi(T) Splay<T>::splay(BinNodePosi(T) v) {
 			attachAsRChild(p, v->lChild);
 			attachAsLChild(v, p);
 		}
+		this->updateHeight(p);
+		this->updateHeight(v);
 	}
 	v->parent = nullptr;
 	return v;
@@ -108,6 +110,7 @@ inline BinNodePosi(T)& Splay<T>::search(const T& e)
 template<typename T>
 inline BinNodePosi(T) Splay<T>::insert(const T& e)
 {
+	std::cout << "insert:" << e << std::endl;
 	if (!this->_root) {
 		this->_size++;
 		return this->_root = new BinNode<T>(e);
@@ -122,10 +125,12 @@ inline BinNodePosi(T) Splay<T>::insert(const T& e)
 	BinNodePosi(T) t = new BinNode<T>(e);
 	if (r->data < e) {
 		attachAsRChild(t, r->rChild);
+		r->rChild = nullptr;
 		attachAsLChild(t, r);
 	}
 	else {
 		attachAsLChild(t, r->lChild);
+		r->lChild = nullptr;
 		attachAsRChild(t, r);
 	}
 	this->updateHeight(t);
@@ -147,15 +152,23 @@ inline bool Splay<T>::remove(const T& e)
 		BinNodePosi(T) newRoot = r->succ();
 		if (newRoot == this->_root->rChild) {
 			attachAsLChild(newRoot, this->_root->lChild);
+			newRoot->parent = nullptr;
+			this->updateHeightAbove(newRoot->rChild);
 		}
 		else {
 			newRoot->parent->lChild = nullptr;
 			attachAsLChild(newRoot, this->_root->lChild);
 			attachAsRChild(newRoot, this->_root->rChild);
+
+			BinNodePosi(T) t = newRoot->parent;
+			newRoot->parent = nullptr;
+			this->updateHeightAbove(t);
 		}
+		this->_root = newRoot;
+		this->_size--;
 	}
+
 	Cleaner<T>::clean(r->data);
 	Cleaner<BinNodePosi(T)>::clean(r);
-	this->updateHeightAbove(this->_hot);
 	return true;
 }
