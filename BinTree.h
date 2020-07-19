@@ -2,10 +2,14 @@
 #include <algorithm>
 #include "BinNode.h"
 #include "Release.h"
+#include <iostream>
 
 template <typename T>
 class BinTree
 {
+	//图形化打印树结构
+	friend void printTree(BinNodePosi(T) t, std::ostream& os);
+
 	//比较器、判等器
 	friend bool operator<(BinTree<T> const& lbt, BinTree<T> const& rbt)
 	{
@@ -211,4 +215,36 @@ int BinTree<T>::removeAt(BinNodePosi(T) x)
 	release(x);
 	x = nullptr;
 	return n;
+}
+
+template<typename T>
+inline void printTree(BinNodePosi(T) t, std::ostream& os)
+{
+	os << "\r\n!!! printTree !!!\r\n";
+
+	if (!t) {
+		os << "tree is empty" << std::endl;
+	}
+	else {
+		int height = t->height;
+		Queue<BinNodePosi(T)> queue;
+		queue.enqueue(t);
+
+		while (height >= 0 && !queue.empty())
+		{
+			BinNodePosi(T) c = queue.dequeue();
+			if (c->height != height) {
+				os << "\r\n";
+				height = c->height;
+			}
+
+			os << c->data << " ";
+			if (c->lChild) {
+				queue.enqueue(c->lChild);
+			}
+			if (c->rChild) {
+				queue.enqueue(c->rChild);
+			}
+		}
+	}
 }

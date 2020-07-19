@@ -44,4 +44,6 @@ int main(int argc, char *argv[])
     avl.insert(110);
     avl.root()->travInI3(avl.root(), pavl);
     std::cout << std::endl;
+
+    printTree(avl.root(), std::cout);
 }
