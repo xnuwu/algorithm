@@ -226,16 +226,17 @@ inline void printTree(BinNodePosi(T) t, std::ostream& os)
 		os << "tree is empty" << std::endl;
 	}
 	else {
-		int height = t->height;
+		t->updateDeep();
+		int deep = 0;
 		Queue<BinNodePosi(T)> queue;
 		queue.enqueue(t);
 
-		while (height >= 0 && !queue.empty())
+		while (!queue.empty())
 		{
 			BinNodePosi(T) c = queue.dequeue();
-			if (c->height != height) {
+			if (c->deep != deep) {
 				os << "\r\n";
-				height = c->height;
+				deep = c->deep;
 			}
 
 			os << c->data << " ";

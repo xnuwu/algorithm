@@ -48,6 +48,7 @@ public:
 	BinNodePosi(T) rChild;
 	T data;
 	int height;
+	int deep;
 	int size();
 
 	BinNodePosi(T) insertAsLC(T const &e);
@@ -81,6 +82,9 @@ public:
 		}
 		return *this;
 	}
+
+	//生成每个节点的深度
+	void updateDeep();
 
 	//当前节点的直接后继(中序遍历)
 	BinNodePosi(T) succ();
@@ -144,6 +148,23 @@ template <typename T>
 BinNodePosi(T) BinNode<T>::insertAsRC(T const &e)
 {
 	return rChild = new BinNode(e, this);
+}
+
+template<typename T>
+inline void BinNode<T>::updateDeep()
+{
+	if (!this->parent) {
+		this->deep = 0;
+	}
+	else {
+		this->deep = this->parent->deep + 1;
+	}
+	if (this->lChild) {
+		this->lChild->updateDeep();
+	}
+	if (this->rChild) {
+		this->rChild->updateDeep();
+	}
 }
 
 template<typename T>
