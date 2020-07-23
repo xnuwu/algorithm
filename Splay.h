@@ -110,7 +110,6 @@ inline BinNodePosi(T)& Splay<T>::search(const T& e)
 template<typename T>
 inline BinNodePosi(T) Splay<T>::insert(const T& e)
 {
-	std::cout << "insert:" << e << std::endl;
 	if (!this->_root) {
 		this->_size++;
 		return this->_root = new BinNode<T>(e);

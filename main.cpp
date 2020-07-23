@@ -1,6 +1,9 @@
 #include <string>
 #include <iostream>
+#include <random>
 #include "Splay.h"
+#include <time.h>
+#include "List.h"
 
 template<typename T>
 class PrintTree {
@@ -12,38 +15,36 @@ public:
 
 int main(int argc, char *argv[])
 {
-
     PrintTree<int> pavl;
+    default_random_engine e;
+    uniform_int_distribution<unsigned> u(0, 1000000);
+    Splay<unsigned> avl;
 
-    Splay<int> avl;
-    avl.insert(1);
-    avl.insert(2);
-    avl.insert(3);
-    avl.insert(4);
-    avl.insert(5);
-    avl.insert(10);
-    avl.insert(9);
-    avl.insert(8);
-    avl.insert(7);
-    avl.insert(12);
-    avl.insert(15);
-    avl.insert(6);
+    for (int i = 0; i < 1000000; i++) {
+        avl.insert(u(e));
+    }
 
-    avl.root() ->travInI3(avl.root(), pavl);
-    avl.remove(10);
+    time_t seconds = time(nullptr);
+    unsigned num;
+    for (int i = 0; i < 1000; i++) {
+        num = u(e);
+        avl.search(num);
+    }
+    std::cout << "tree search cost time " << (time(nullptr) - seconds) << std::endl;
 
-    std::cout << std::endl;
-    avl.root()->travInI3(avl.root(), pavl);
-    std::cout << std::endl;
+    List<unsigned> ulist;
+    for (int i = 0; i < 1000000; i++) {
+        ulist.insertAsFirst(u(e));
+    }
+    seconds = time(nullptr);
+    ulist.sort();
 
-    avl.insert(10);
-    avl.insert(11);
-    avl.insert(15);
-    avl.insert(0);
-    avl.insert(-10);
-    avl.insert(110);
-    avl.root()->travInI3(avl.root(), pavl);
-    std::cout << std::endl;
+    seconds = time(nullptr);
+    for (int i = 0; i < 1000; i++) {
+        num = u(e);
+        ulist.search(num);
+    }
+    std::cout << "list search cost time " << (time(nullptr) - seconds) << std::endl;
 
-    printTree(avl.root(), std::cout);
+
 }
