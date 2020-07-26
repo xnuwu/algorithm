@@ -11,7 +11,7 @@ protected:
 	BTNodePosi(T) _hot;
 
 	void solveOverflow(BTNodePosi(T));
-	void solveOverflow(BTNodePosi(T));
+	void solveUnderflow(BTNodePosi(T));
 	
 public:
 	BTree(int order = 3): _order(order), size(0) {
@@ -44,3 +44,21 @@ public:
 	bool insert(const T& e);
 	bool remove(const T& e);
 };
+
+template<typename T>
+BTNodePosi(T) BTree<T>::search(const T& e)
+{
+	BTNodePosi(T) p = _root;
+	_hot = nullptr;
+	while (p) {
+		Rank r = p->key.search(e);
+		if (r >= 0 && p->key[r] == e) {
+			return p;
+		}
+		_hot = p;
+		p = p->child[r + 1];
+	}
+
+	return nullptr;
+}
+

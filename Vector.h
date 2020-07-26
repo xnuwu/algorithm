@@ -459,7 +459,7 @@ inline Rank binSearch(T* _elem, T e, Rank lo, Rank hi)
 {
 	while (lo < hi) {
 		Rank mi = (lo + hi) >> 1;
-		(e < _elem[mi]) ? hi == mi : lo = mi + 1;
+		(e < _elem[mi]) ? hi = mi : lo = mi + 1;
 	}
 	return --lo;
 }

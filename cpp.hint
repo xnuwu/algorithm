@@ -8,3 +8,4 @@
 #define BinNodePosi(T)
 #define IsLChild(x) (!IsRoot(x) && ((&x) == (x).parent->lChild))
 #define IsLChild(x) (!IsRoot(x) && ((&x) == (x).parent->lChild))
+#define BTNodePosi(T)
