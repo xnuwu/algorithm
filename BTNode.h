@@ -4,11 +4,12 @@
 
 template <typename T>
 class BTNode {
-private:
+public:
+
 	BTNodePosi(T) parent;
 	Vector<T> key;
 	Vector<BTNodePosi(T)> child;
-public:
+
 	BTNode() {
 		parent = nullptr;
 		child.insert(0, nullptr);

@@ -12,13 +12,13 @@ public:
 
 int main(int argc, char *argv[])
 {
-    Vector<int> vi;
-    vi.insert(1);
-    vi.insert(2);
-    vi.insert(3);
-    vi.insert(4);
-    vi.insert(5);
-    vi.insert(6);
-
-    std::cout << vi.search(11) << std::endl;
+    BTree<int> bt;
+    bt.insert(1);
+    bt.insert(2);
+    bt.insert(3);
+    bt.insert(4);
+    bt.insert(10);
+    bt.insert(11);
+    bt.insert(12);
+    bt.insert(13);
 }
