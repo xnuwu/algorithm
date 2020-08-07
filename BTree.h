@@ -98,7 +98,34 @@ inline void BTree<T>::solveOverflow(BTNodePosi(T) n)
 template<typename T>
 inline void BTree<T>::solveUnderflow(BTNodePosi(T) n)
 {
+	if (n && n->child.size() >= (_order + 1) / 2) {
+		std::cout << "节点 " << n << " 有" << n->child.size() << "个孩子，未下溢" << std::endl;
+		return false;
+	}
 
+	std::cout << "节点 " << n << " 孩子数量为" << n->child.size() << ",开始处理下溢" << std::endl;
+
+	BTNodePosi(T) p = n->parent;
+
+	if (!p) {
+		if (!n->key.size() && n->child[0]) {
+			_root = n->child[0];
+			_root->parent = nullptr;
+			n->child[0] = nullptr;
+			Cleaner<BTNodePosi(T)>::clean(n);
+		}
+		return;
+	}
+
+	//如果有左邻节点数量够借元素
+
+	//如果有右邻节点数量够借元素
+
+	//左右节点都不够，左边有相邻节点，那么合并
+
+	//左右节点都不够，右边有相邻节点，那么合并
+
+	//合并后检查父类存在下溢
 }
 
 template<typename T>
@@ -137,5 +164,21 @@ inline bool BTree<T>::remove(const T& e)
 	if (!v) {
 		return false;
 	}
+
+	Rank r = v->key.search(e);
+	if (v->child[0]) {
+		//如果不是叶节点，那么与后继节点（必为叶节点）交换然后删除
+		BTNodePosi(T) u = v->child[r + 1];
+		while (u->child[0]) {
+			u = u->child[0];
+		}
+		v->key[r] = u->key[0];
+		v = u;
+		r = 0;
+	}
+	v->key.remove(r);
+	v->child.remove(r + 1);
+	_size--;
+	solveUnderflow(v);
 }
 

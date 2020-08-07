@@ -12,7 +12,7 @@ public:
 
 int main(int argc, char *argv[])
 {
-    BTree<int> bt;
+    BTree<int> bt(5);
     bt.insert(1);
     bt.insert(2);
     bt.insert(3);
