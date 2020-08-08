@@ -1,5 +1,6 @@
 #pragma once
 #include "Release.h"
+#include "Queue.h"
 #include "BTNode.h"
 
 template <typename T>
@@ -11,7 +12,7 @@ protected:
 	BTNodePosi(T) _hot;
 
 	void solveOverflow(BTNodePosi(T) n);
-	void solveUnderflow(BTNodePosi(T));
+	void solveUnderflow(BTNodePosi(T) n);
 	
 public:
 	BTree(int order = 3): _order(order), _size(0) {
@@ -45,6 +46,8 @@ public:
 	BTNodePosi(T) search(const T& e);
 	void insert(const T& e);
 	bool remove(const T& e);
+
+	void printTree();
 };
 
 template<typename T>
@@ -84,7 +87,7 @@ inline void BTree<T>::solveOverflow(BTNodePosi(T) n)
 		std::cout << "将元素" << e << "插入 " << n << " 的父节点" << p << std::endl;
 		Rank pr = p->key.search(e);
 		p->key.insert(pr + 1, e);
-		p->child.insert(pr + 1, nt);
+		p->child.insert(pr + 2, nt);
 		nt->parent = p;
 		solveOverflow(p);
 	}
@@ -98,17 +101,22 @@ inline void BTree<T>::solveOverflow(BTNodePosi(T) n)
 template<typename T>
 inline void BTree<T>::solveUnderflow(BTNodePosi(T) n)
 {
-	if (n && n->child.size() >= (_order + 1) / 2) {
+	if (n->child.size() >= (_order + 1) / 2) {
 		std::cout << "节点 " << n << " 有" << n->child.size() << "个孩子，未下溢" << std::endl;
-		return false;
+		return;
 	}
 
-	std::cout << "节点 " << n << " 孩子数量为" << n->child.size() << ",开始处理下溢" << std::endl;
+	std::cout << "节点 " << n << " 孩子数量为 " << n->child.size() << ", 当前B树阶为" << _order << ",开始处理下溢" << std::endl;
 
 	BTNodePosi(T) p = n->parent;
 
+	//递归基
 	if (!p) {
+
+		std::cout << "递归到达根节点" << std::endl;
 		if (!n->key.size() && n->child[0]) {
+
+			std::cout << "根节点当前暂无元素,但是根节点孩子存在,更新根节点为孩子节点" << std::endl;
 			_root = n->child[0];
 			_root->parent = nullptr;
 			n->child[0] = nullptr;
@@ -117,15 +125,107 @@ inline void BTree<T>::solveUnderflow(BTNodePosi(T) n)
 		return;
 	}
 
-	//如果有左邻节点数量够借元素
+	Rank r = p->child.search(n);
 
-	//如果有右邻节点数量够借元素
+	if (r > 0) {
+		BTNodePosi(T) ls = p->child[r - 1];
+		//左邻借位
+		if (ls->child.size() > (_order + 1) / 2) {
 
-	//左右节点都不够，左边有相邻节点，那么合并
+			std::cout << "节点 " << n << " 从父节点 " << p << " 借元素 " << p->key[r] << std::endl;
+			n->key.insert(0, p->key[r]);
+			
+			std::cout << "节点 " << n << " 从左节点 " << ls << " 借孩子 " << ls->child[ls->child.size() - 1] << std::endl;
+			n->child.insert(0, ls->child.remove(ls->child.size() - 1));
 
-	//左右节点都不够，右边有相邻节点，那么合并
+			std::cout << "父节点 " << p << " 从左子元素 " << ls << " 借元素 " << ls->key[ls->key.size() - 1] << std::endl;
+			p->key[r] = ls->key[ls->key.size() - 1];
 
-	//合并后检查父类存在下溢
+			ls->key.remove(ls->key.size() - 1);
+
+			if (n->child[0]) {
+				std::cout << n << " 修改从左邻借过来的孩子 " << n->child[0] << " 的父亲为自己" << std::endl;
+				n->child[0]->parent = n;
+			}
+			return;
+		}
+	}
+
+	if (r < p->child.size() - 1) {
+		BTNodePosi(T) rs = p->child[r + 1];
+		//右邻借位
+		if (rs->child.size() > (_order + 1) / 2) {
+
+			std::cout << "节点 " << n << " 从父节点 " << p <<" 借元素 "  << p->key[r] << std::endl;
+			n->key.insert(p->key[r]);
+
+			std::cout << "节点 " << n << " 从右节点 " << rs << " 借孩子 " << rs->child[0] << std::endl;
+			n->child.insert(rs->child.remove(0));
+
+			std::cout << "父节点 " << p << " 从右子元素 " << rs << " 借元素 " << rs->key[0] << std::endl;
+			p->key[r] = rs->key.remove(0);
+			
+			if (n->child[n->child.size() - 1]) {
+				std::cout << n << " 修改从右邻借过来的孩子 " << n->child[n->child.size() - 1] << " 的父亲为自己" << std::endl;
+				n->child[n->child.size() - 1]->parent = n;
+			}
+			return;
+		}
+	}
+
+	if (r > 0) {
+		std::cout << n << " 准备从父亲借位元素 " << p->key[r-1] << " 将左邻居合并" << std::endl;
+		BTNodePosi(T) ls = p->child[r - 1];
+		
+		std::cout << ls << " 添加从父亲借位的元素 " << p->key[r - 1] << std::endl;
+		ls->key.insert(p->key.remove(r-1));
+
+		std::cout << n << " 的父亲准备去除它,并准备将它合并到左邻居 " << ls << " 上" << std::endl;
+		p->child.remove(r);
+
+		while (n->key.size() > 0) {
+			std::cout << "左邻 " << ls << " 添加来自 " << n << " 的元素 " << n->key[0] << std::endl;
+			ls->child.insert(n->child.remove(0));
+			ls->key.insert(n->key.remove(0));
+			if (ls->child[ls->child.size() - 1]) {
+				ls->child[ls->child.size() - 1]->parent = ls;
+			}
+		}
+		ls->child.insert(n->child.remove(0));
+		if (ls->child[ls->child.size() - 1]) {
+			ls->child[ls->child.size() - 1]->parent = ls;
+		}
+		std::cout << "释放节点 " << n << std::endl;
+		Cleaner<BTNodePosi(T)>::clean(n);
+	}
+	else {
+		std::cout << n << " 准备从父亲借位元素 " << p->key[r] << " 合并到左邻居" << std::endl;
+		BTNodePosi(T) rs = p->child[r + 1];
+
+		std::cout << n << " 添加从父亲借位的元素 " << p->key[r] << std::endl;
+		n->key.insert(p->key.remove(r));
+
+		std::cout << rs << " 的父亲准备去除它,并准备到左节点 " << n << " 上" << std::endl;
+		p->child.remove(r + 1);
+
+		while (rs->key.size() > 0) {
+			std::cout << n << " 添加来自右节点 " << rs << " 的元素 " << rs->key[0] << std::endl;
+			n->child.insert(rs->child.remove(0));
+			n->key.insert(rs->key.remove(0));
+			if (n->child[n->child.size() - 1]) {
+				n->child[n->child.size() - 1]->parent = n;
+			}
+		}
+		n->child.insert(rs->child.remove(0));
+		if (n->child[n->child.size() - 1]) {
+			n->child[n->child.size() - 1]->parent = n;
+		}
+		std::cout << "释放节点 " << rs << std::endl;
+		Cleaner<BTNodePosi(T)>::clean(rs);
+	}
+	
+	std::cout << "准备检查父亲 " << p << " 是否存在下溢" << std::endl;
+	solveUnderflow(p);
 }
 
 template<typename T>
@@ -155,30 +255,71 @@ void BTree<T>::insert(const T& e)
 	_size++;
 	std::cout << _hot << " 插入 " << e << std::endl;
 	solveOverflow(_hot);
+	printTree();
 }
 
 template<typename T>
 inline bool BTree<T>::remove(const T& e)
 {
+	std::cout << "准备删除 " << e << std::endl;
 	BTNodePosi(T) v = search(e);
 	if (!v) {
+		std::cout << "未找到待删除元素 " << e << std::endl;
 		return false;
 	}
 
 	Rank r = v->key.search(e);
-	if (v->child[0]) {
-		//如果不是叶节点，那么与后继节点（必为叶节点）交换然后删除
+	if (v->child[r+1]) {
 		BTNodePosi(T) u = v->child[r + 1];
 		while (u->child[0]) {
 			u = u->child[0];
 		}
+
+		std::cout << "交换节点 " << u << " 的首元素值 " << u->key[0] << " 到 " << v << " 的 " << r << " 位置,与值 " << v->key[r] << " 交换 " << std::endl;
 		v->key[r] = u->key[0];
 		v = u;
 		r = 0;
 	}
+	std::cout << "删除位于 " << v << " 的元素 " << v->key[r] << std::endl;
 	v->key.remove(r);
-	v->child.remove(r + 1);
+	v->child.remove(r + 1); //叶节点孩子为空,直接删除
 	_size--;
 	solveUnderflow(v);
+	printTree();
+}
+
+template<typename T>
+inline void BTree<T>::printTree()
+{
+	std::cout << "********************************************** 开始 **********************************************" << std::endl;
+
+	if (!_root) {
+		std::cout << "B树 " << _root << " 为空" << std::endl;
+	}
+	else {
+		Queue<BTNodePosi(T)> queue;
+		queue.enqueue(_root);
+		while (!queue.empty()) {
+
+			std::cout << std::endl;
+			BTNodePosi(T) n = queue.dequeue();
+			std::cout << "节点 " << n << " 的元素: ";
+			for (int i = 0; i < n->key.size(); i++) {
+				std::cout << n->key[i] << " ";
+			}
+			std::cout << std::endl;
+			std::cout << "节点 " << n << " 的孩子: ";
+			for (int i = 0; i < n->child.size(); i++) {
+				if (n->child[i]) {
+					std::cout << n->child[i] << " ";
+					queue.enqueue(n->child[i]);
+				}
+			}
+			std::cout << std::endl;
+			std::cout << std::endl;
+		}
+	}
+	std::cout << "********************************************** 结束 **********************************************" << std::endl;
+	std::cout << std::endl;
 }
 
