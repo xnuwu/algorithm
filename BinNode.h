@@ -49,18 +49,20 @@ public:
 	T data;
 	int height;
 	int deep;
+	RBColor color;
 	int size();
 
 	BinNodePosi(T) insertAsLC(T const &e);
 	BinNodePosi(T) insertAsRC(T const &e);
 
 	BinNode() : height(0), parent(nullptr), lChild(nullptr), rChild(nullptr) {};
-	BinNode(T e, BinNodePosi(T) p = nullptr, BinNodePosi(T) l = nullptr, BinNodePosi(T) r = nullptr, int h = 0) : data(e), parent(p), lChild(l), rChild(r), height(h){};
+	BinNode(T e, BinNodePosi(T) p = nullptr, BinNodePosi(T) l = nullptr, BinNodePosi(T) r = nullptr, int h = 0, RBColor c = RB_RED) : data(e), parent(p), lChild(l), rChild(r), height(h), color(c) {};
 
 	BinNode<T>& operator=(const BinNode<T> rbn) const {
 		if (this != &rbn) {
 			this->data = rbn.data;
 			this->height = rbn.height;
+			this->color = rbn.color;
 			this->parent = rbn.parent;
 			this->lChild = rbn.lChild;
 			this->rChild = rbn.rChild;
@@ -72,10 +74,12 @@ public:
 		if (this != &rbn) {
 			this->data = rbn.data;
 			this->height = rbn.height;
+			this->color = rbn.color;
 			this->parent = rbn.parent;
 			this->lChild = rbn.lChild;
 			this->rChild = rbn.rChild;
 			rbn.height = 0;
+			rbn.color = RB_RED;
 			rbn.parent = nullptr;
 			rbn.lChild = nullptr;
 			rbn.rChild = nullptr;
