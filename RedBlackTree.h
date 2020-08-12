@@ -19,6 +19,12 @@ public:
 };
 
 template<typename T>
+inline void RedBalckTree<T>::solveDoubleBlack(BinNodePosi(T) p)
+{
+	std::cout << "开始解决节点 " << p << " 双黑冲突" << std::endl;
+}
+
+template<typename T>
 inline void RedBalckTree<T>::solveDoubleRed(BinNodePosi(T) x)
 {
 	//如果是根节点直接置黑
@@ -79,4 +85,42 @@ inline BinNodePosi(T) RedBalckTree<T>::insert(T& e)
 	_size++;
 	solveDoubleRed(x);
 	return x;
+}
+
+template<typename T>
+inline bool RedBalckTree<T>::remove(const T& e)
+{
+	BinNodePosi(T)& x = search(e);
+	if (!x) {
+		std::cout << "未找到待删除的元素 " << e << std::endl;
+		return false;
+	}
+
+	BinNodePosi(T) r = removeAt(x, _hot);
+	if (--_size <= 0) {
+		std::cout << "已删除最后一个节点，当前红黑树为空" << std::endl;
+		return true;
+	}
+
+	if (!_hot) {
+		std::cout << "当前删除的是根节点,自动设置接替的元素颜色为【黑】" << std::endl;
+		_root->color = RB_BLACK;
+		updateHeight(_root);
+		return true;
+	}
+
+	if (BlackHeightUpdated(*r)) {
+		std::cout << "删除元素后,当前节点黑高度平稳,无需重构拓扑、重染色" << std::endl;
+		return true;
+	}
+
+	if (IsRed(r)) {
+		std::cout << "删除 " << e << " 后，接替的元素颜色为红，直接置【黑】,更新高度" << std::endl;
+		r->color = RB_BLACK;
+		r->height++;
+		return true;
+	}
+
+	solveDoubleBlack(r);
+	return true;
 }
