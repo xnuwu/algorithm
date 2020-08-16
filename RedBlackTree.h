@@ -109,10 +109,8 @@ inline void RedBalckTree<T>::solveDoubleRed(BinNodePosi(T) x)
 			x->color = RB_BLACK;
 		}
 		g->color = RB_RED;
-		BinNodePosi(T) gg = g->parent;
 		BinNodePosi(T) r = FromParentTo(*g) = this ->rotateAt(x);
 		std::cout << "重染色,然后3+4调整 " << x << " 节点" << std::endl;
-		r->parent = gg;
 	}
 	else {
 		p->color = RB_BLACK; p->height++;
