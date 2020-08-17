@@ -13,16 +13,21 @@ protected:
 public:
 	BinNodePosi(T) insert(const T& e);
 	bool remove(const T& e);
-	void printTree();
 };
 
 template<typename T>
 inline void RedBalckTree<T>::solveDoubleBlack(BinNodePosi(T) r)
 {
+#ifdef DEBUG
 	std::cout << "开始解决节点 " << r << " 双黑冲突" << std::endl;
+#endif // DEBUG
+
 	BinNodePosi(T) p = r ? r->parent : this ->_hot;
 	if (!p) {
+#ifdef DEBUG
 		std::cout << "到达根节点,结束!" << std::endl;
+#endif // DEBUG
+
 		return;
 	}
 	BinNodePosi(T) s = r == p->lChild ? p->rChild : p->lChild;
@@ -32,9 +37,15 @@ inline void RedBalckTree<T>::solveDoubleBlack(BinNodePosi(T) r)
 		if (HasLChild(*s) && s->lChild->color == RB_RED) t = s->lChild;
 		if (HasRChild(*s) && s->rChild->color == RB_BLACK) t = s->rChild;
 		if (t) {
+#ifdef DEBUG
 			std::cout << r << " 的兄弟节点 " << s << " 的孩子有红节点 " << t << " 准备进行3+4重构，然后重染色! " << std::endl;
+#endif // DEBUG
+
 			RBColor oldColor = p->color;
+#ifdef DEBUG
 			std::cout << "先记住父节点 " << p << " 的颜色为 " << oldColor << std::endl;
+#endif // DEBUG
+
 			BinNodePosi(T) newP = FromParentTo(*p) = this->rotateAt(t);
 			if (HasLChild(*newP)) {
 				newP->lChild->color = RB_BLACK;
@@ -48,7 +59,10 @@ inline void RedBalckTree<T>::solveDoubleBlack(BinNodePosi(T) r)
 			updateHeight(newP);
 		}
 		else {
-			std::cout << r << " 的兄弟节点 " << s << " 的孩子都是黑色"<< std::endl;
+#ifdef DEBUG
+			std::cout << r << " 的兄弟节点 " << s << " 的孩子都是黑色" << std::endl;
+#endif // DEBUG
+
 			s->color = RB_RED;
 			s->height--;
 			if (IsRed(p)) {
@@ -61,7 +75,10 @@ inline void RedBalckTree<T>::solveDoubleBlack(BinNodePosi(T) r)
 		}
 	}
 	else {
+#ifdef DEBUG
 		std::cout << r << " 的兄弟节点 " << s << " 为红色,准备进行重染色、旋转，然后解决双黑冲突" << std::endl;
+#endif // DEBUG
+
 		s->color = RB_BLACK;
 		p->color = RB_RED;
 
@@ -75,22 +92,36 @@ inline void RedBalckTree<T>::solveDoubleBlack(BinNodePosi(T) r)
 template<typename T>
 inline void RedBalckTree<T>::solveDoubleRed(BinNodePosi(T) x)
 {
+#ifdef DEBUG
 	std::cout << "准备检测 " << x << " 是否存在双红冲突" << std::endl;
+#endif // DEBUG
+
 	if (IsRoot(*x)) {
+#ifdef DEBUG
 		std::cout << x << " 为根节点,直接置黑,结束检测" << std::endl;
+#endif // DEBUG
+
 		x->color = RB_BLACK;
 		x->height++;
 		return;
 	}
 	BinNodePosi(T) p = x->parent;
 	if (IsBlack(p)) {
+#ifdef DEBUG
 		std::cout << "节点 " << x << " 的父节点 " << p << " 为黑色节点,不存在双红冲突,结束检测" << std::endl;
+#endif // DEBUG
+
 		return;
 	}
+#ifdef DEBUG
 	std::cout << "节点 " << x << " 的父节点 " << p << " 为红色节点" << std::endl;
+#endif // DEBUG
+
 
 	BinNodePosi(T) g = p->parent;
 	BinNodePosi(T) u = uncle(x);
+
+#ifdef DEBUG
 
 	std::cout << x << " 的祖父节点 " << g << " 元素值 " << g->data << " 颜色 " << (g->color == RBColor::RB_BLACK ? "黑色" : "红色") << std::endl;
 	if (u) {
@@ -99,6 +130,8 @@ inline void RedBalckTree<T>::solveDoubleRed(BinNodePosi(T) x)
 	else {
 		std::cout << x << " 的叔叔节点为空,默认黑色" << std::endl;
 	}
+
+#endif // DEBUG
 
 	if (IsBlack(u)) {
 		
@@ -110,7 +143,10 @@ inline void RedBalckTree<T>::solveDoubleRed(BinNodePosi(T) x)
 		}
 		g->color = RB_RED;
 		BinNodePosi(T) r = FromParentTo(*g) = this ->rotateAt(x);
+#ifdef DEBUG
 		std::cout << "重染色,然后3+4调整 " << x << " 节点" << std::endl;
+#endif // DEBUG
+
 	}
 	else {
 		p->color = RB_BLACK; p->height++;
@@ -118,8 +154,10 @@ inline void RedBalckTree<T>::solveDoubleRed(BinNodePosi(T) x)
 		if (!IsRoot(*g)) {
 			g->color = RB_RED;
 		}
+#ifdef DEBUG
 		std::cout << "重染色后,准备检测祖父节点 " << g << " 是否存在双红" << std::endl;
-		printTree();
+#endif // DEBUG
+
 		solveDoubleRed(g);
 	}
 }
@@ -134,98 +172,84 @@ inline int RedBalckTree<T>::updateHeight(BinNodePosi(T) p)
 template<typename T>
 inline BinNodePosi(T) RedBalckTree<T>::insert(const T& e)
 {
+#ifdef DEBUG
 	std::cout << std::endl;
 	std::cout << "准备插入元素 " << e << std::endl;
+#endif // DEBUG
+
 	BinNodePosi(T)& x = this -> search(e);
 	if (x) {
+#ifdef DEBUG
 		std::cout << "待插入的元素 " << e << " 已存在于 " << x << std::endl;
+#endif // DEBUG
+
 		return x;
 	}
 	x = new BinNode<T>(e, this ->_hot, nullptr, nullptr, -1);
+#ifdef DEBUG
 	std::cout << "创建元素 " << e << " 节点 " << x << std::endl;
 	std::cout << "将元素 " << e << " 作为 " << this->_hot << " 的孩子插入" << std::endl;
+#endif // DEBUG
+
 	this ->_size++;
-	printTree();
 	solveDoubleRed(x);
-	printTree();
 	return x;
 }
 
 template<typename T>
 inline bool RedBalckTree<T>::remove(const T& e)
 {
+#ifdef DEBUG
 	std::cout << std::endl;
 	std::cout << "准备删除元素 " << e << std::endl;
+#endif // DEBUG
+
 	BinNodePosi(T)& x = this ->search(e);
 	if (!x) {
+#ifdef DEBUG
 		std::cout << "未找到待删除的元素 " << e << std::endl;
-		printTree();
+#endif // DEBUG
+
 		return false;
 	}
 
 	BinNodePosi(T) r = this -> removeAt(x, this->_hot);
 	if (--this->_size <= 0) {
+#ifdef DEBUG
 		std::cout << "已删除最后一个节点，当前红黑树为空" << std::endl;
-		printTree();
+#endif // DEBUG
+
 		return true;
 	}
 
 	if (!this ->_hot) {
+#ifdef DEBUG
 		std::cout << "当前删除的是根节点,自动设置接替的元素颜色为【黑】" << std::endl;
+#endif // DEBUG
+
 		this->_root->color = RB_BLACK;
 		updateHeight(this->_root);
-		printTree();
 		return true;
 	}
 
 	if (BlackHeightUpdated((*this->_hot))) {
+#ifdef DEBUG
 		std::cout << "删除元素后,当前节点黑高度平稳,无需重构拓扑、重染色" << std::endl;
-		printTree();
+#endif // DEBUG
+
 		return true;
 	}
 
 	if (IsRed(r)) {
+#ifdef DEBUG
 		std::cout << "删除 " << e << " 后，接替的元素颜色为红，直接置【黑】,更新高度" << std::endl;
+#endif // DEBUG
+
 		r->color = RB_BLACK;
 		r->height++;
-		printTree();
 		return true;
 	}
 
 	solveDoubleBlack(r);
-	printTree();
 	return true;
-}
-
-template<typename T>
-void RedBalckTree<T>::printTree() {
-	if (!this->_root) {
-		std::cout << "树 " << this->_root << " 为空" << std::endl;
-		return;
-	}
-	BinNodePosi(T) r = this->_root;
-	Queue<BinNodePosi(T)> bn;
-	bn.enqueue(r);
-	int lastHeight = r->height;
-
-	std::cout << std::endl;
-	std::cout << "----------------------------------- 开始打印红黑树 -----------------------------------" << std::endl;
-	while (!bn.empty()) {
-		BinNodePosi(T) x = bn.dequeue();
-		if (x->lChild) {
-			bn.enqueue(x->lChild);
-		}
-
-		if (x->rChild) {
-			bn.enqueue(x->rChild);
-		}
-
-		if (x->height != lastHeight) {
-			lastHeight = x->height;
-			std::cout << std::endl;
-			std::cout << "----------------------------------- " << lastHeight << " -----------------------------------" << std::endl;
-		}
-		std::cout << "节点 " << x << " 高 " << x->height << ",值 " << x->data << " " << (x->color == RBColor::RB_BLACK ? "黑色" : "红色") << " 左孩子 " << x ->lChild << " 右孩子 " << x->rChild << " 父节点 " << x->parent << std::endl;
-	}
-	std::cout << std::endl;
 }

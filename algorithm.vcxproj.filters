@@ -140,6 +140,9 @@
     <ClInclude Include="RedBlackTree.h">
       <Filter>头文件\chapter7</Filter>
     </ClInclude>
+    <ClInclude Include="TreePrinter.h">
+      <Filter>头文件\chapter7</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

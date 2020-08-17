@@ -87,6 +87,10 @@ public:
 		return *this;
 	}
 
+	~BinNode<T>() {
+		
+	}
+
 	//生成每个节点的深度
 	void updateDeep();
 
