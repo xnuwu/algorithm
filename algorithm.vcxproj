@@ -177,6 +177,7 @@
     <ClInclude Include="PlaceQueen.h" />
     <ClInclude Include="PQ.h" />
     <ClInclude Include="PQComplete.h" />
+    <ClInclude Include="PQLeftHeap.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="RedBlackTree.h" />
     <ClInclude Include="Release.h" />

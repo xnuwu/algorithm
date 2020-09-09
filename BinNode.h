@@ -50,12 +50,13 @@ public:
 	int height;
 	int deep;
 	RBColor color;
+	int npl;
 	int size();
 
 	BinNodePosi(T) insertAsLC(T const &e);
 	BinNodePosi(T) insertAsRC(T const &e);
 
-	BinNode() : height(0), parent(nullptr), lChild(nullptr), rChild(nullptr) {};
+	BinNode() : height(0), npl(0), parent(nullptr), lChild(nullptr), rChild(nullptr) {};
 	BinNode(T e, BinNodePosi(T) p = nullptr, BinNodePosi(T) l = nullptr, BinNodePosi(T) r = nullptr, int h = 0, RBColor c = RB_RED) : data(e), parent(p), lChild(l), rChild(r), height(h), color(c) {};
 
 	BinNode<T>& operator=(const BinNode<T> rbn) const {

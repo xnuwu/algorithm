@@ -5,6 +5,7 @@
 #include "TreePrinter.h"
 #include <random>
 #include "PQComplete.h"
+#include "PQLeftHeap.h"
 
 class BaseCls {
 public:
@@ -22,16 +23,5 @@ public:
 
 int main(int argc, char *argv[])
 {
-	Vector<int> vi;
-	vi.insert(11);
-	vi.insert(3);
-	vi.insert(41);
-	vi.insert(15);
-	vi.insert(64);
-	vi.insert(25);
-	vi.sort();
-	for (int i = 0; i < vi.size(); i++) {
-		std::cout << vi[i] << std::endl;
-	}
 	return 0;
 }
