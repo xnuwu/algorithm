@@ -333,7 +333,7 @@ inline void Vector<T>::sort(Rank lo, Rank hi)
 {
 	static uniform_int_distribution<int> r(_capacity, 2 * _capacity);
 	static default_random_engine engine;
-	mergeSort(lo, hi);
+	heapSort(lo, hi);
 	/*switch (r(engine))
 	{
 	case 1:
@@ -357,6 +357,7 @@ inline void Vector<T>::sort(Rank lo, Rank hi)
 		break;
 	}*/
 }
+
 
 template <typename T>
 inline void Vector<T>::swap(T& a, T& b) {

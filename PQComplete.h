@@ -23,7 +23,7 @@ protected:
 public:
 	PQComplete() {};
 	PQComplete(T* a, Rank n) {
-		copyFrom(a, 0, n);
+		this -> copyFrom(a, 0, n);
 		heapify(n);
 	};
 
@@ -54,7 +54,7 @@ template<typename T>
 inline Rank PQComplete<T>::precolateDown(Rank n, Rank r)
 {
 	Rank j;
-	T e = getMax();
+	T e = this->_elem[r];
 	while (r != (j = ProperParent(this -> _elem, n, r))) {
 		this ->_elem[r] = this->_elem[j];
 		this ->_elem[j] = e;
@@ -87,10 +87,18 @@ inline T PQComplete<T>::getMax()
 template<typename T>
 inline T PQComplete<T>::delMax()
 {
-	if (this->_size > 0) {
-		T e = this->_elem[0];
-		this->_elem[0] = this->remove(this->_size - 1);
-		precolateDown(this->_size, 0);
-		return e;
+	T e = this->_elem[0];
+	this->_elem[0] = this->_elem[this->_size - 1];
+	this->_size--;
+	precolateDown(this->_size, 0);
+	return e;
+}
+
+template<typename T>
+inline void Vector<T>::heapSort(Rank lo, Rank hi)
+{
+	PQComplete<T> h(_elem + lo, hi - lo);
+	while (!h.empty()) {
+		_elem[--hi] = h.delMax();
 	}
 }

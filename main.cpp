@@ -22,19 +22,16 @@ public:
 
 int main(int argc, char *argv[])
 {
-	PQComplete<int> pqi;
-	pqi.insert(11);
-	pqi.insert(21);
-	pqi.insert(31);
-	pqi.insert(89);
-	pqi.insert(19);
-
-	std::cout << pqi.delMax() << std::endl;
-	std::cout << pqi.delMax() << std::endl;
-	std::cout << pqi.delMax() << std::endl;
-	std::cout << pqi.delMax() << std::endl;
-	std::cout << pqi.delMax() << std::endl;
-	std::cout << pqi.delMax() << std::endl;
-	std::cout << pqi.delMax() << std::endl;
+	Vector<int> vi;
+	vi.insert(11);
+	vi.insert(3);
+	vi.insert(41);
+	vi.insert(15);
+	vi.insert(64);
+	vi.insert(25);
+	vi.sort();
+	for (int i = 0; i < vi.size(); i++) {
+		std::cout << vi[i] << std::endl;
+	}
 	return 0;
 }
