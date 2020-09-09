@@ -26,8 +26,14 @@ int main(int argc, char *argv[])
 	pqi.insert(11);
 	pqi.insert(21);
 	pqi.insert(31);
-	pqi.insert(8);
+	pqi.insert(89);
+	pqi.insert(19);
 
-	std::cout << pqi.getMax() << std::endl;
+	std::cout << pqi.delMax() << std::endl;
+	std::cout << pqi.delMax() << std::endl;
+	std::cout << pqi.delMax() << std::endl;
+	std::cout << pqi.delMax() << std::endl;
+	std::cout << pqi.delMax() << std::endl;
+	std::cout << pqi.delMax() << std::endl;
 	return 0;
 }

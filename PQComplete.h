@@ -43,10 +43,10 @@ inline Rank PQComplete<T>::precolateUp(Rank r)
 			r = p;
 		}
 		else {
-			this->_elem[r] = e;
 			break;
 		}
 	}
+	this->_elem[r] = e;
 	return r;
 }
 
@@ -55,7 +55,7 @@ inline Rank PQComplete<T>::precolateDown(Rank n, Rank r)
 {
 	Rank j;
 	T e = getMax();
-	while (r != (j = ProperParent(this, n, r))) {
+	while (r != (j = ProperParent(this -> _elem, n, r))) {
 		this ->_elem[r] = this->_elem[j];
 		this->_elem[j] = e;
 		r = j;
@@ -89,7 +89,7 @@ inline T PQComplete<T>::delMax()
 {
 	T e = this->_elem[0];
 	this->_elem[0] = this->_elem[this->_size - 1];
-	this ->remove(this->_size - 1);
+	this->_size--;
 	precolateDown(this -> _size, 0);
 	return e;
 }
