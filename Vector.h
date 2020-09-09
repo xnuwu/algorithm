@@ -1,5 +1,6 @@
 #pragma once
 #define VECTOR_DEFAULT_CAPCITY 10
+#include "Release.h"
 #include <random>
 #include <iostream>
 
@@ -301,6 +302,7 @@ inline int Vector<T>::remove(Rank lo, Rank hi)
 	if (lo == hi) return 0;
 
 	while (hi < _size) {
+		Cleaner<T>::clean(_elem[lo]);
 		_elem[lo++] = _elem[hi++];
 	}
 	_size = lo;

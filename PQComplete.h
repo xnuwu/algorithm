@@ -2,7 +2,7 @@
 #include "PQ.h"
 #include "Vector.h"
 
-#define InHeap(n, i) (((-1) < (i)) || ((i) < (n)))
+#define InHeap(n, i) (((-1) < (i)) && ((i) < (n)))
 #define LChild(i) (((i) << 1) + 1)
 #define RChild(i) (((i) + 1) << 1)
 #define Parent(i) (((i) - 1) >> 1)
@@ -57,7 +57,7 @@ inline Rank PQComplete<T>::precolateDown(Rank n, Rank r)
 	T e = getMax();
 	while (r != (j = ProperParent(this -> _elem, n, r))) {
 		this ->_elem[r] = this->_elem[j];
-		this->_elem[j] = e;
+		this ->_elem[j] = e;
 		r = j;
 	}
 	return r;
@@ -87,9 +87,10 @@ inline T PQComplete<T>::getMax()
 template<typename T>
 inline T PQComplete<T>::delMax()
 {
-	T e = this->_elem[0];
-	this->_elem[0] = this->_elem[this->_size - 1];
-	this->_size--;
-	precolateDown(this -> _size, 0);
-	return e;
+	if (this->_size > 0) {
+		T e = this->_elem[0];
+		this->_elem[0] = this->remove(this->_size - 1);
+		precolateDown(this->_size, 0);
+		return e;
+	}
 }

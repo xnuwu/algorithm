@@ -35,5 +35,6 @@ int main(int argc, char *argv[])
 	std::cout << pqi.delMax() << std::endl;
 	std::cout << pqi.delMax() << std::endl;
 	std::cout << pqi.delMax() << std::endl;
+	std::cout << pqi.delMax() << std::endl;
 	return 0;
 }
