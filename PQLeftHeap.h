@@ -15,6 +15,11 @@ public:
 	void insert(T e);
 	T getMax();
 	T delMax();
+	void mergePQ(PQLeftHeap& pql) {
+		merge(this->_root, pql.root());
+		this->_size += pql._size;
+		pql._size = 0;
+	}
 };
 
 template<typename T>

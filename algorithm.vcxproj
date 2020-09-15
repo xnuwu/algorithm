@@ -184,6 +184,7 @@
     <ClInclude Include="ReversePolishNotation.h" />
     <ClInclude Include="Splay.h" />
     <ClInclude Include="Stack.h" />
+    <ClInclude Include="String.h" />
     <ClInclude Include="TreePrinter.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>

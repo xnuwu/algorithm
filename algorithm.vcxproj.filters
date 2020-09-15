@@ -46,6 +46,9 @@
     <Filter Include="头文件\chapter8">
       <UniqueIdentifier>{22583c39-fe76-4d37-8270-a3d05d73afb2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\chapter11">
+      <UniqueIdentifier>{b1bf93dd-1838-48a6-88f7-7618f99e4a47}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Fibonacci.cpp">
@@ -154,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="PQLeftHeap.h">
       <Filter>头文件\chapter8</Filter>
+    </ClInclude>
+    <ClInclude Include="String.h">
+      <Filter>头文件\chapter11</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
