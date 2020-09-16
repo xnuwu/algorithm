@@ -7,7 +7,7 @@
 int main()
 {
 	const char* cstr = "xunwu is good";
-	String str1(cstr, 13);
+	String str1(cstr);
 
 	std::cout << std::boolalpha << !str1 << std::endl;
 	String str2 = str1.suffix(4);
@@ -18,7 +18,12 @@ int main()
 
 	String str4 = str1.prefix(5);
 	std::cout << std::boolalpha << (str3 == str4) << std::endl;
-
 	std::cout << (str3.concat(str2)) << std::endl;
+
+	String sub("unw1");
+	std::cout << str1.substr(1, 3).equal(sub) << std::endl;
+
+	std::cout << str1.chatAt(str1.length() - 1) << std::endl;
+
 	return 0;
 }

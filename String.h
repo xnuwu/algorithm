@@ -1,15 +1,8 @@
 #pragma once
 #include <iostream>
+#include <stdexcept>
 
 using std::ostream;
-
-int strLen(const char* s) {
-	int i = 0;
-	while (s[i] != '\0') {
-		i++;
-	}
-	return i;
-}
 
 class String {
 	friend
@@ -23,14 +16,19 @@ public:
 	String(): ch(nullptr), len(0) {
 	};
 
-	String(const char* ch, unsigned __int64 size) {
-		unsigned __int64 sz = size + 1;
+	String(const char* ch) {
+
+		unsigned __int64 sz = 0;
+		while (ch[sz] != '\0') {
+			sz++;
+		}
+		sz++;
 		this->ch = new char[sz];
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < sz - 1; i++) {
 			this->ch[i] = ch[i];
 		}
-		this->ch[size] = '\0';
-		this->len = size;
+		this->ch[sz - 1] = '\0';
+		this->len = sz - 1;
 	}
 
 	bool operator!() {
@@ -44,7 +42,7 @@ public:
 			for (unsigned __int64 i = 0; i < str.len; i++) {
 				this->ch[i] = str.ch[i];
 			}
-			this->ch[str.len] = '\0';
+			this->ch[sz - 1] = '\0';
 		}
 		return *this;
 	}
@@ -81,23 +79,35 @@ public:
 		return len;
 	}
 
-	int chatAt(unsigned __int64 i) const {
-		if (i >= len && i < 0) {
-			return -1;
+	char chatAt(unsigned __int64 i) const {
+		if (i >= len || i < 0) {
+			throw std::range_error("index incorrect! index:" + i);
 		}
 		else {
 			return ch[i];
 		}
 	}
 
+	String& substr(unsigned __int64 i, unsigned __int64 k) {
+		String* pstr = new String;
+		unsigned __int64 sz = k + 1;
+		pstr->ch = new char[sz];
+		for (unsigned __int64 j = 0; j < sz - 1; j++) {
+			pstr->ch[j] = this->ch[i + j];
+		}
+		pstr->ch[sz - 1] = '\0';
+		pstr->len = k;
+		return *pstr;
+	}
+
 	String& prefix(unsigned __int64 n) {
 		String* pstr = new String;
 		unsigned __int64 sz = n + 1;
 		pstr->ch = new char[sz];
-		for (unsigned __int64 i = 0; i < n; i++) {
+		for (unsigned __int64 i = 0; i < sz - 1; i++) {
 			pstr->ch[i] = this -> ch[i];
 		}
-		pstr->ch[n] = '\0';
+		pstr->ch[sz - 1] = '\0';
 		pstr->len = n;
 		return *pstr;
 	}
@@ -107,12 +117,16 @@ public:
 		String* pstr = new String;
 		unsigned __int64 sz = n + 1;
 		pstr->ch = new char[sz];
-		for (unsigned __int64 i = 0; i < n; i++) {
+		for (unsigned __int64 i = 0; i < sz - 1; i++) {
 			pstr->ch[i] = this->ch[left + i];
 		}
-		pstr->ch[n] = '\0';
+		pstr->ch[sz - 1] = '\0';
 		pstr->len = n;
 		return *pstr;
+	}
+
+	bool equal(String& str) {
+		return str == *this;
 	}
 
 	String& concat(const String& str) {
@@ -132,44 +146,6 @@ public:
 
 	__int64 indexOf(const String& str) {
 		__int64 i = -1;
-		return i;
-	}
-
-	int match1(const char* p, const char* s) {
-		size_t n = strLen(p);
-		size_t m = strLen(s);
-		int i = 0;
-		int j = 0;
-		while (i < n && j < m) {
-			if (p[i] == s[j]) {
-				i++;
-				j++;
-			}
-			else {
-				j -= i - 1;
-				i = 0;
-			}
-		}
-
-		return j - i;
-	}
-
-	int match2(const char* p, const char* s) {
-		size_t n = strLen(p);
-		size_t m = strLen(s);
-		int i = 0;
-		int j;
-		for (; i < m - n; i++) {
-			for (j = 0; j < n; j++) {
-				if (s[i] != p[j]) {
-					break;
-				}
-			}
-
-			if (n <= j) {
-				break;
-			}
-		}
 		return i;
 	}
 };
