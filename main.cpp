@@ -23,7 +23,16 @@ int main()
 	String sub("unw1");
 	std::cout << str1.substr(1, 3).equal(sub) << std::endl;
 
-	std::cout << str1.chatAt(str1.length() - 1) << std::endl;
+
+	std::cout << str1.match1("x") << std::endl;
+	std::cout << str1.match1("d") << std::endl;
+	std::cout << str1.match1("xu") << std::endl;
+	std::cout << str1.match1("ood") << std::endl;
+
+	std::cout << str1.match2("x") << std::endl;
+	std::cout << str1.match2("d") << std::endl;
+	std::cout << str1.match2("xu") << std::endl;
+	std::cout << str1.match2("ood") << std::endl;
 
 	return 0;
 }
