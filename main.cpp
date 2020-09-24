@@ -33,6 +33,12 @@ int main()
 	std::cout << str1.match2("d") << std::endl;
 	std::cout << str1.match2("xu") << std::endl;
 	std::cout << str1.match2("ood") << std::endl;
+	
+	std::cout << std::endl;
+	std::cout << str1.match("x") << std::endl;
+	std::cout << str1.match("d") << std::endl;
+	std::cout << str1.match("xu") << std::endl;
+	std::cout << str1.match("ood") << std::endl;
 
 	return 0;
 }

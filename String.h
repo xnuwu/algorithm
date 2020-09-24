@@ -5,14 +5,33 @@
 using std::ostream;
 
 class String {
-	typedef unsigned __int64 m_size_t;
-	typedef __int64 m_idx;
+	typedef __int64 m_size_t;
 	friend
 		ostream& operator<<(ostream& os, const String& str);
 
 private:
 	char* ch;
 	m_size_t len;
+
+	m_size_t* buildNext(const String& str)
+	{
+		m_size_t length = str.length();
+		m_size_t* next = new m_size_t[length];
+		m_size_t t = next[0] = -1;
+		m_size_t j = 0;
+		while (j < length - 1) {
+			if (t < 0 || str[t] == str[j]) {
+				t++;
+				j++;
+				next[j] = t;
+			}
+			else {
+				t = next[t];
+			}
+		}
+		return next;
+	}
+
 public:
 
 	String(): ch(nullptr), len(0) {
@@ -146,17 +165,17 @@ public:
 		return *pstr;
 	}
 
-	m_idx indexOf(const String& str) {
-		m_idx i = -1;
+	m_size_t indexOf(const String& str) {
+		m_size_t i = -1;
 		return i;
 	}
 
-	m_idx match1(const String& str) {
+	m_size_t match1(const String& str) {
 
-		m_idx i = 0;;
+		m_size_t i = 0;;
 		m_size_t m = len;
 
-		m_idx j = 0;
+		m_size_t j = 0;
 		m_size_t n = str.length();
 
 		if (n > m || n <= 0) {
@@ -181,11 +200,11 @@ public:
 		return -1;
 	}
 
-	m_idx match2(const String& str) {
-		m_idx i = 0;
+	m_size_t match2(const String& str) {
+		m_size_t i = 0;
 		m_size_t m = len;
 
-		m_idx j = 0;
+		m_size_t j = 0;
 		m_size_t n = str.length();
 
 		if (n > m || n <= 0) {
@@ -208,6 +227,26 @@ public:
 		}
 
 		return -1;
+	}
+
+	m_size_t match(const String& str) {
+		m_size_t* next = buildNext(str);
+		m_size_t m = len;
+		m_size_t n = str.length();
+		m_size_t i = 0;
+		m_size_t j = 0;
+		while (i < m && j < n) {
+			if (j < 0 || this->ch[i] == str[j]) {
+				i++;
+				j++;
+			}
+			else {
+				j = next[j];
+			}
+
+		}
+		delete next;
+		return i - j;
 	}
 };
 
