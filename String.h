@@ -12,26 +12,6 @@ class String {
 private:
 	char* ch;
 	m_size_t len;
-
-	m_size_t* buildNext(const String& str)
-	{
-		m_size_t length = str.length();
-		m_size_t* next = new m_size_t[length];
-		m_size_t t = next[0] = -1;
-		m_size_t j = 0;
-		while (j < length - 1) {
-			if (t < 0 || str[t] == str[j]) {
-				t++;
-				j++;
-				next[j] = t;
-			}
-			else {
-				t = next[t];
-			}
-		}
-		return next;
-	}
-
 public:
 
 	String(): ch(nullptr), len(0) {
@@ -60,7 +40,7 @@ public:
 		if (str.len != 0) {
 			m_size_t sz = str.len + 1;
 			this->ch = new char[sz];
-			for (m_size_t i = 0; i < str.len; i++) {
+			for (m_size_t i = 0; i < sz - 1; i++) {
 				this->ch[i] = str.ch[i];
 			}
 			this->ch[sz - 1] = '\0';
@@ -150,19 +130,21 @@ public:
 		return str == *this;
 	}
 
-	String& concat(const String& str) {
+	String* concat(const String& str) {
+
 		m_size_t sz = len + str.len;
-		String* pstr = new String;
-		pstr->ch = new char[sz + 1];
+		char *newCh = new char[sz + 1];
 		for (int i = 0; i < len; i++) {
-			pstr->ch[i] = ch[i];
+			newCh[i] = ch[i];
 		}
 		for (m_size_t i = len, j = 0; i < sz; i++, j++) {
-			pstr->ch[i] = str.ch[j];
+			newCh[i] = str.ch[j];
 		}
-		pstr->ch[sz] = '\0';
-		pstr->len = sz;
-		return *pstr;
+		newCh[sz] = '\0';
+		this->len = sz;
+		delete this->ch;
+		this->ch = newCh;
+		return this;
 	}
 
 	m_size_t indexOf(const String& str) {
@@ -229,13 +211,32 @@ public:
 		return -1;
 	}
 
-	m_size_t match(const String& str) {
-		m_size_t* next = buildNext(str);
+	int* kmpBuildNext(const String& str) {
+		m_size_t m = str.length();
+		int* next = new int[m];
+		next[0] = -1;
+		int j = -1;
+		int i = 0;
+		while (i < m - 1) {
+			if (j < 0 || str[i] == str[j]) {
+				i++;
+				j++;
+				next[i] = (str[i] != str[j] ? j : next[j]);
+			}
+			else {
+				j = next[j];
+			}
+		}
+		return next;
+	}
+	
+	m_size_t kmpMatch(const String& str) {
+		int* next = kmpBuildNext(str);
 		m_size_t m = len;
 		m_size_t n = str.length();
 		m_size_t i = 0;
 		m_size_t j = 0;
-		while (i < m && j < n) {
+		while (i < m) {
 			if (j < 0 || this->ch[i] == str[j]) {
 				i++;
 				j++;
@@ -243,7 +244,6 @@ public:
 			else {
 				j = next[j];
 			}
-
 		}
 		delete next;
 		return i - j;
